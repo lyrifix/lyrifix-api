@@ -1,10 +1,25 @@
 {
-  "name": "my-app",
+  "name": "lyrifix-api",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun install && bun db:migrate:deploy && bun db:gen",
+    "start": "bun run src/index.ts",
+    "docker:up": "docker-compose up -d",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:gen": "prisma generate --no-hints",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset --force"
+  },
+  "prisma": {
+    "seed": "bun prisma/seed.ts"
   },
   "dependencies": {
-    "hono": "^4.7.8"
+    "hono": "^4.7.8",
+    "@types/node": "^22.15.3",
+    "prisma": "^6.7.0",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@types/bun": "latest"
