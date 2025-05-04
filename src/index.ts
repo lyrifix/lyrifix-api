@@ -5,12 +5,13 @@ import { logger } from "hono/logger";
 import { configDocs, configGeneral } from "./configs/app";
 
 const app = new OpenAPIHono();
+
 app.use(cors());
 app.use(logger());
 
-const apiRoutes = app.basePath("/");
+app.basePath("/");
 
-apiRoutes
+app
   .doc(configDocs.openapi, {
     openapi: "3.1.0",
     info: { ...configGeneral, version: "v1" },
@@ -18,8 +19,9 @@ apiRoutes
   .get(
     "/",
     Scalar({
-      pageTitle: "Lyrifix",
+      pageTitle: "Lyrifix API",
       url: "/openapi.json",
+      theme: "purple",
     })
   )
   .onError((err, c) => {
