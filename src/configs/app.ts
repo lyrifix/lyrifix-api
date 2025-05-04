@@ -1,6 +1,6 @@
 export const configGeneral = {
   title: "Lyrifix API",
-  description: "Fix the Lyrics, Feel the Music",
+  description: "🎵 Lyrifix – Fix the Lyrics. Feel the Music.",
   urls: [
     {
       name: "GitHub",
