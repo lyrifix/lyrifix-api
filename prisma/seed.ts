@@ -16,6 +16,11 @@ async function main() {
       create: {
         ...artist,
         slug: createNewSlug(artist.name),
+        songs: {
+          connect: {
+            id: "",
+          },
+        },
       },
     });
     console.info(`🎤 Artist: ${newArtistResult.name}`);
@@ -23,20 +28,23 @@ async function main() {
 
   // Seed Songs
   for (const song of dataSongs) {
-    const { artistSlug, ...songData } = song;
     const newSongResult = await prisma.song.upsert({
       where: { slug: song.slug },
       update: {
-        ...songData,
-        artists: {
-          connect: { slug: artistSlug },
-        },
+        ...song,
       },
       create: {
-        ...songData,
+        ...song,
         slug: createNewSlug(song.title),
         artists: {
-          connect: { slug: artistSlug },
+          connect: {
+            id: "",
+          },
+        },
+        lyrics: {
+          connect: {
+            id: "",
+          },
         },
       },
     });
@@ -45,25 +53,24 @@ async function main() {
 
   // Seed Lyrics
   for (const lyric of dataLyrics) {
-    const { songSlug, ...lyricData } = lyric;
     const song = await prisma.song.findUnique({
-      where: { slug: songSlug },
+      where: { slug: lyric.slug },
     });
 
     if (!song) {
-      console.error(`Song with slug ${songSlug} not found`);
+      console.error(`Song with slug ${song} not found`);
       continue;
     }
 
     const newLyricResult = await prisma.lyric.upsert({
       where: { slug: lyric.slug },
       update: {
-        ...lyricData,
+        ...lyric,
         songId: song.id,
       },
       create: {
-        ...lyricData,
-        slug: createNewSlug(`${songSlug}-${lyricData.text.slice(0, 20)}`),
+        ...lyric,
+        slug: createNewSlug(`${song.slug}-${lyric.text.slice(0, 20)}`),
         songId: song.id,
       },
     });
