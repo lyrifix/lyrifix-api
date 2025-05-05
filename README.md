@@ -1,17 +1,25 @@
-# lyrifix-api
+# 🎵 Lyrifix API
 
-Lyrifix Backend API
+Fix the Lyrics. Feel the Music. Lyrifix is your all-in-one global lyrics platform — made for music lovers, lyric hunters, and community contributors.
 
-To install dependencies:
+Read the complete explanation on the main repo: <https://github.com/lyrifix/lyrifix>
 
-```sh
+## Getting Started
+
+### Installation
+
+Install the dependencies:
+
+```bash
 bun install
 ```
 
-To run:
+### Development
 
-```sh
-bun run dev
+Start the development server:
+
+```bash
+bun dev
 ```
 
-open http://localhost:3000
+Your application will be available at `http://localhost:3000`.
