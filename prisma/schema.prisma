@@ -13,3 +13,43 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Artist {
+  id   String @id @default(cuid())
+  slug String @unique
+
+  name     String  @unique
+  imageUrl String?
+
+  songs Song[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Song {
+  id   String @id @default(cuid())
+  slug String @unique
+
+  title    String
+  imageUrl String?
+
+  artists Artist[]
+  lyrics  Lyric[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lyric {
+  id   String @id @default(cuid())
+  slug String @unique
+
+  songId String
+  song   Song   @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  text String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
