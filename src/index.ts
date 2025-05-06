@@ -3,6 +3,7 @@ import { Scalar } from "@scalar/hono-api-reference";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { configDocs, configGeneral } from "./configs/app";
+import { songRoutes } from "./routes/song";
 
 const app = new OpenAPIHono();
 
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(logger());
 
 app.basePath("/");
+app.route("/songs", songRoutes);
 
 app
   .doc(configDocs.openapi, {
