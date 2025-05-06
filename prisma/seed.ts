@@ -2,79 +2,51 @@ import { PrismaClient } from "../src/generated/prisma";
 
 const prisma = new PrismaClient();
 
+import { createSlugify } from "../src/lib/slug";
 import { dataArtists } from "./data/artists";
-import { dataSongs } from "./data/songs";
 import { dataLyrics } from "./data/lyrics";
-import { createNewSlug } from "../src/lib/slugify";
+import { dataSongs } from "./data/songs";
 
 async function main() {
-  // Seed Artists
+  const dataLength = dataArtists.length;
+
+  // Seed Artist
   for (const artist of dataArtists) {
-    const newArtistResult = await prisma.artist.upsert({
+    const newArtist = await prisma.artist.upsert({
       where: { slug: artist.slug },
       update: artist,
       create: {
         ...artist,
-        slug: createNewSlug(artist.name),
-        songs: {
-          connect: {
-            id: "",
-          },
-        },
+        slug: createSlugify(artist.name),
       },
     });
-    console.info(`🎤 Artist: ${newArtistResult.name}`);
+    console.info(`🎤 Artist: ${newArtist.name}`);
   }
 
-  // Seed Songs
+  // Seed Song
   for (const song of dataSongs) {
-    const newSongResult = await prisma.song.upsert({
+    const newSong = await prisma.song.upsert({
       where: { slug: song.slug },
-      update: {
-        ...song,
-      },
+      update: song,
       create: {
         ...song,
-        slug: createNewSlug(song.title),
-        artists: {
-          connect: {
-            id: "",
-          },
-        },
-        lyrics: {
-          connect: {
-            id: "",
-          },
-        },
+        slug: createSlugify(song.title),
       },
     });
-    console.info(`🎵 Song: ${newSongResult.title}`);
+    console.info(`🎤 Song: ${song.title}`);
   }
 
-  // Seed Lyrics
-  for (const lyric of dataLyrics) {
-    const song = await prisma.song.findUnique({
-      where: { slug: lyric.slug },
-    });
-
-    if (!song) {
-      console.error(`Song with slug ${song} not found`);
-      continue;
-    }
-
-    const newLyricResult = await prisma.lyric.upsert({
-      where: { slug: lyric.slug },
-      update: {
-        ...lyric,
-        songId: song.id,
-      },
+  // Seed Lyric
+  for (let i = 0; i < dataLength; i++) {
+    const newLyric = await prisma.lyric.upsert({
+      where: { slug: dataLyrics[i].slug },
+      update: dataLyrics[i],
       create: {
-        ...lyric,
-        slug: createNewSlug(`${song.slug}-${lyric.text.slice(0, 20)}`),
-        songId: song.id,
+        ...dataLyrics[i],
+        slug: createSlugify(dataSongs[i].title),
       },
     });
-    console.info(`📝 Lyric: ${newLyricResult.text.slice(0, 30)}...`);
+    console.info(`🎤 Lyric: ${dataLyrics[i].slug}`);
   }
 }
 

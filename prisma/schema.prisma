@@ -19,7 +19,7 @@ datasource db {
 }
 
 model Artist {
-  id   String @id @default(cuid())
+  id   String @id @default(ulid())
   slug String @unique
 
   name     String  @unique
@@ -27,12 +27,12 @@ model Artist {
 
   songs Song[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Song {
-  id   String @id @default(cuid())
+  id   String @id @default(ulid())
   slug String @unique
 
   title    String
@@ -41,12 +41,12 @@ model Song {
   artists Artist[]
   lyrics  Lyric[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Lyric {
-  id   String @id @default(cuid())
+  id   String @id @default(ulid())
   slug String @unique
 
   songId String
@@ -54,6 +54,6 @@ model Lyric {
 
   text String @db.Text
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
