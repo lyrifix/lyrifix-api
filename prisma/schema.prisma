@@ -9,13 +9,17 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Artist {
-  id   String @id @default(cuid())
+  id   String @id @default(ulid())
   slug String @unique
 
   name     String  @unique
@@ -28,7 +32,7 @@ model Artist {
 }
 
 model Song {
-  id   String @id @default(cuid())
+  id   String @id @default(ulid())
   slug String @unique
 
   title    String
@@ -42,7 +46,7 @@ model Song {
 }
 
 model Lyric {
-  id   String @id @default(cuid())
+  id   String @id @default(ulid())
   slug String @unique
 
   songId String

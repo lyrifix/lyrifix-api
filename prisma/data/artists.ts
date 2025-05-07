@@ -1,38 +1,22 @@
-export const dataArtists = [
+import { CreateArtistType } from "../../src/schema/artist";
+
+export const dataArtists: CreateArtistType[] = [
   {
-    name: "Artist",
-    slug: "artist",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Indonesia_Raya_sheet_music_cover.jpg/320px-Indonesia_Raya_sheet_music_cover.jpg",
+    id: "01F8TQG6AYG2K9W0ABW1BHT7P1",
+    name: "Taylor Swift",
+    slug: "taylor-swift",
+    imageUrl: "https://ucarecdn.com/91a326f4-283e-421b-be9a-86227c61b7bc/examplelukeoslizlo.jpg",
   },
   {
-    name: "JAPAN NATIONAL ANTHEM",
-    slug: "japan-national-anthem",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/en/9/9e/Flag_of_Japan.svg",
+    id: "01F8TQG6AYG2K9W0ABW1BHT8D9",
+    name: "Ed Sheeran",
+    imageUrl: "https://ucarecdn.com/91a326f4-283e-421b-be9a-86227c61b7bc/examplelukeoslizlo.jpg",
+    slug: "ed-sheeran",
   },
   {
-    name: "Bruno Mars, ROSÉ",
-    slug: "bruno-mars-rose",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/e/e1/Bruno_Mars_-_Uptown_Funk_%28Official_Single_Cover%29.png/220px-Bruno_Mars_-_Uptown_Funk_%28Official_Single_Cover%29.png",
-  },
-  {
-    name: "JENNIE",
-    slug: "jennie",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/en/0/00/Jennie_-_Solo.png",
-  },
-  {
-    name: "Billie Eilish",
-    slug: "billie-eilish",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/Billie_Eilish_-_When_We_All_Fall_Asleep%2C_Where_Do_We_Go%3F.png/220px-Billie_Eilish_-_When_We_All_Fall_Asleep%2C_Where_Do_We_Go%3F.png",
-  },
-  {
-    name: "LYODRA",
-    slug: "lyodra",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/id/thumb/3/3a/Lyodra_-_Sabda_Rindu.jpg/220px-Lyodra_-_Sabda_Rindu.jpg",
+    id: "01F8TQG6AYG2K9W0ABW1BHT4R5",
+    name: "Adele",
+    imageUrl: "https://ucarecdn.com/91a326f4-283e-421b-be9a-86227c61b7bc/examplelukeoslizlo.jpg",
+    slug: "adele",
   },
 ];
