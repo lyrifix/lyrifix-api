@@ -1,4 +1,6 @@
 import { z } from "@hono/zod-openapi";
+import { LyricSchema } from "./lyric";
+import { ArtistSchema } from "./artist";
 
 export const SongSchema = z.object({
   id: z.string().ulid().openapi({ example: "01F8TQG6AYG2K9W0ABW1BHT1X6" }),
@@ -10,6 +12,8 @@ export const SongSchema = z.object({
     .openapi({ example: "https://ucarecdn.com/91a326f4-283e-421b-be9a-86227c61b7bc/examplelukeoslizlo.jpg" }),
   createdAt: z.string().datetime().optional().openapi({ example: "2025-05-05T14:29:37.360Z" }),
   updatedAt: z.string().datetime().optional().nullable().openapi({ example: "2025-05-05T14:29:37.360Z" }),
+  artists: z.array(ArtistSchema),
+  lyrics: z.array(LyricSchema),
 });
 
 export const CreateSongSchema = SongSchema.extend({
@@ -17,6 +21,8 @@ export const CreateSongSchema = SongSchema.extend({
 }).omit({
   createdAt: true,
   updatedAt: true,
+  artists: true,
+  lyrics: true,
 });
 
 export const SongsSchema = z.array(SongSchema);

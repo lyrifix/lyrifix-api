@@ -28,7 +28,12 @@ songRoutes.openapi(
   }),
   async (c) => {
     try {
-      const songs = await prismaClient.song.findMany();
+      const songs = await prismaClient.song.findMany({
+        include: {
+          artists: true,
+          lyrics: true,
+        },
+      });
 
       return c.json(songs);
     } catch (error) {
@@ -63,6 +68,10 @@ songRoutes.openapi(
       const slug = c.req.param("slug");
       const song = await prismaClient.song.findFirst({
         where: { slug },
+        include: {
+          artists: true,
+          lyrics: true,
+        },
       });
 
       if (!song) {
