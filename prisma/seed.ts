@@ -1,15 +1,13 @@
 import { PrismaClient } from "../src/generated/prisma";
 
-const prisma = new PrismaClient();
-
 import { createSlugify } from "../src/lib/slug";
 import { dataArtists } from "./data/artists";
 import { dataLyrics } from "./data/lyrics";
 import { dataSongs } from "./data/songs";
 
-async function main() {
-  const dataLength = dataArtists.length;
+const prisma = new PrismaClient();
 
+async function main() {
   // Seed Artist
   for (const artist of dataArtists) {
     const newArtist = await prisma.artist.upsert({
@@ -24,6 +22,7 @@ async function main() {
   }
 
   // Seed Song
+  let idx = 0;
   for (const song of dataSongs) {
     const newSong = await prisma.song.upsert({
       where: { slug: song.slug },
@@ -31,13 +30,19 @@ async function main() {
       create: {
         ...song,
         slug: createSlugify(song.title),
+        artists: {
+          connect: {
+            id: dataArtists[idx].id,
+          },
+        },
       },
     });
+    idx++;
     console.info(`🎤 Song: ${song.title}`);
   }
 
   // Seed Lyric
-  for (let i = 0; i < dataLength; i++) {
+  for (let i = 0; i < dataLyrics.length; i++) {
     const newLyric = await prisma.lyric.upsert({
       where: { slug: dataLyrics[i].slug },
       update: dataLyrics[i],
