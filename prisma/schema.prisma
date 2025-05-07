@@ -9,6 +9,10 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 generator zod {
   provider = "zod-prisma-types"
 }
