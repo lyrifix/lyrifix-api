@@ -5,18 +5,18 @@ export const dataArtists: CreateArtistType[] = [
     id: "01F8TQG6AYG2K9W0ABW1BHT7P1",
     name: "Taylor Swift",
     slug: "taylor-swift",
-    imageUrl: "https://ucarecdn.com/91a326f4-283e-421b-be9a-86227c61b7bc/examplelukeoslizlo.jpg",
+    imageUrl: "https://ik.imagekit.io/y7wb3isgw/artists/taylor-swift.png",
   },
   {
     id: "01F8TQG6AYG2K9W0ABW1BHT8D9",
-    name: "Ed Sheeran",
-    imageUrl: "https://ucarecdn.com/91a326f4-283e-421b-be9a-86227c61b7bc/examplelukeoslizlo.jpg",
+    name: "Wage Rudolf Soepratman",
+    imageUrl: "https://ik.imagekit.io/y7wb3isgw/artists/wage-rudolf-supratman.jpg",
     slug: "ed-sheeran",
   },
   {
     id: "01F8TQG6AYG2K9W0ABW1BHT4R5",
-    name: "Adele",
-    imageUrl: "https://ucarecdn.com/91a326f4-283e-421b-be9a-86227c61b7bc/examplelukeoslizlo.jpg",
+    name: "Hayashi Hiromori",
+    imageUrl: "https://ik.imagekit.io/y7wb3isgw/artists/hayashi-hiromori.jpg",
     slug: "adele",
   },
 ];

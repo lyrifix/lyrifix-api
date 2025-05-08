@@ -15,8 +15,8 @@ export const dataLyrics: CreateLyricType[] = [
   },
   {
     id: "01F8TQG6AYG2K9W0ABW1BHT3W2",
-    slug: "maju-tak-gentar-ver-1-xxxxx",
+    slug: "kimigayo-ver-1-xxxxx",
     songId: "01F8TQG6AYG2K9W0ABW1BHT6Z9",
-    text: `Maju tak gentar\nMembela yang benar\nMaju tak gentar\nHak kita diserang\n\nMaju serentak\nMengusir penyerang\nMaju serentak\nTentu kita menang\n\nBergerak bergerak\nSerentak serentak\nMenerkam menerjang\nTerkam tak gentar\n\nMaju tak gentar\nMembela yang benar`,
+    text: `君が代は\n千代に八千代に\nさざれ石の\n巌となりて\n苔のむすまで`,
   },
 ];
