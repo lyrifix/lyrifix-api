@@ -19,7 +19,7 @@ Songs:
 | `/songs/:slug` | `GET`    | Get song by slug  |
 | `/songs`       | `POST`   | Add new song      |
 | `/songs/:id`   | `DELETE` | Delete song by id |
-| `/songs/:id`   | `PUT`    | Update song by id |
+| `/songs/:id`   | `PATCH`    | Update song by id |
 
 Auth:
 
