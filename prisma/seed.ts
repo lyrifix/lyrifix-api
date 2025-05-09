@@ -8,50 +8,45 @@ import { dataSongs } from "./data/songs";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Seed Artist
+  // Seed Artists
   for (const artist of dataArtists) {
     const newArtist = await prisma.artist.upsert({
       where: { slug: artist.slug },
       update: artist,
-      create: {
-        ...artist,
-        slug: createSlugify(artist.name),
-      },
+      create: artist,
     });
     console.info(`🎤 Artist: ${newArtist.name}`);
   }
 
-  // Seed Song
-  let idx = 0;
-  for (const song of dataSongs) {
-    const newSong = await prisma.song.upsert({
-      where: { slug: song.slug },
+  // Seed Songs
+  for (const songData of dataSongs) {
+    const { artistSlugs, ...song } = songData;
+
+    const upsertedSong = await prisma.song.upsert({
+      where: { slug: songData.slug },
       update: song,
       create: {
         ...song,
-        slug: createSlugify(song.title),
-        artists: {
-          connect: {
-            id: dataArtists[idx].id,
-          },
-        },
+        artists: { connect: { slug: artistSlugs[0] } },
       },
     });
-    idx++;
-    console.info(`🎤 Song: ${song.title}`);
+    console.info(`🎤 Song: ${upsertedSong.title}`);
   }
 
-  // Seed Lyric
-  for (let i = 0; i < dataLyrics.length; i++) {
-    const newLyric = await prisma.lyric.upsert({
-      where: { slug: dataLyrics[i].slug },
-      update: dataLyrics[i],
+  // Seed Lyrics
+  for (const lyricData of dataLyrics) {
+    const { songSlug, ...lyric } = lyricData;
+
+    const upsertedLyric = await prisma.lyric.upsert({
+      where: { slug: lyric.slug },
+      update: lyric,
       create: {
-        ...dataLyrics[i],
-        slug: createSlugify(dataSongs[i].title),
+        ...lyric,
+        song: { connect: { slug: songSlug } },
       },
     });
-    console.info(`🎤 Lyric: ${dataLyrics[i].slug}`);
+
+    console.info(`🎤 Lyric: ${upsertedLyric.slug}`);
   }
 }
 
