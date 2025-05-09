@@ -2,6 +2,7 @@ import { CreateLyricType } from "../../src/schema/lyric";
 import { prepareText } from "../../src/lib/text";
 
 import lyricIndonesiaRaya from "./lyrics/indonesia-raya";
+import lyricKimigayo from "./lyrics/kimigayo";
 
 export const dataLyrics: CreateLyricType[] = [
   {
@@ -12,7 +13,7 @@ export const dataLyrics: CreateLyricType[] = [
   {
     slug: "kimigayo-v1",
     songSlug: "kimigayo",
-    text: `君が代は\n千代に八千代に\nさざれ石の\n巌となりて\n苔のむすまで`,
+    text: prepareText(lyricKimigayo),
   },
   {
     slug: "anti-hero-v1",
