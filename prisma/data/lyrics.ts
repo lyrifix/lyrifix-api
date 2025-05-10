@@ -14,7 +14,6 @@ import lyricRencanaUsang from "./lyrics/rencana-usang";
 import lyricShoot from "./lyrics/shoot";
 import lyricWhyGerogia from "./lyrics/why-georgia";
 import lyricYouWillBeInMyHeart from "./lyrics/you-will-be-in-my-heart";
-import lyricAntiHero from "./lyrics/anti-hero";
 
 export const dataLyrics: CreateLyricType[] = [
   {
