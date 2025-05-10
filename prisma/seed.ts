@@ -1,6 +1,4 @@
 import { PrismaClient } from "../src/generated/prisma";
-
-import { createSlugify } from "../src/lib/slug";
 import { dataArtists } from "./data/artists";
 import { dataLyrics } from "./data/lyrics";
 import { dataSongs } from "./data/songs";
