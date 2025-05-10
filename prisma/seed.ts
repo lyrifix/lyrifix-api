@@ -19,13 +19,14 @@ async function main() {
   // Seed Songs
   for (const songData of dataSongs) {
     const { artistSlugs, ...song } = songData;
+    const connectArtistSlugs = artistSlugs.map((slug) => ({ slug }));
 
     const upsertedSong = await prisma.song.upsert({
       where: { slug: songData.slug },
       update: song,
       create: {
         ...song,
-        artists: { connect: { slug: artistSlugs[0] } },
+        artists: { connect: connectArtistSlugs },
       },
     });
     console.info(`🎤 Song: ${upsertedSong.title}`);
