@@ -11,7 +11,7 @@ Kau tahu mana urutan satu
 
 Diantara pusaran nirfungsi
 Petakan semua lagi
-Titik tuju yang t′lah terpatri
+Titik tuju yang t'lah terpatri
 
 Melamban bukanlah hal yang tabu
 Kadang itu yang kau butuh
