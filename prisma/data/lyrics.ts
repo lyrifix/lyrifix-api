@@ -14,6 +14,8 @@ import lyricRencanaUsang from "./lyrics/rencana-usang";
 import lyricShoot from "./lyrics/shoot";
 import lyricWhyGerogia from "./lyrics/why-georgia";
 import lyricYouWillBeInMyHeart from "./lyrics/you-will-be-in-my-heart";
+import lyricWeCantBeFriends from "./lyrics/we-cant-be-friends";
+import lyricSupernatural from "./lyrics/supernatural";
 
 export const dataLyrics: CreateLyricType[] = [
   {
@@ -81,5 +83,15 @@ export const dataLyrics: CreateLyricType[] = [
     slug: "inside-out-v1",
     songSlug: "inside-out",
     text: prepareText(lyricInsideOut),
+  },
+  {
+    slug: "we-cant-be-friends-v1",
+    songSlug: "we-cant-be-friends",
+    text: prepareText(lyricWeCantBeFriends),
+  },
+  {
+    slug: "supernatural-v1",
+    songSlug: "supernatural",
+    text: prepareText(lyricSupernatural),
   },
 ];
