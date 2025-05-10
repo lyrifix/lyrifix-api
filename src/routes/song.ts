@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { SongSchema, SongsSchema } from "../schema/song";
 import { prismaClient } from "../lib/prisma";
+import { SongSchema, SongsSchema } from "../schema/song";
 
 export const songRoutes = new OpenAPIHono();
 
@@ -38,6 +38,62 @@ songRoutes.openapi(
       return c.json(songs);
     } catch (error) {
       return c.json({ error: error }, 400);
+    }
+  }
+);
+
+//Get songs by keyword
+songRoutes.openapi(
+  createRoute({
+    method: "get",
+    path: "/search",
+    tags: ["Songs"],
+    summary: "Get songs by keyword",
+    description: "Get songs by keyword",
+    request: { query: z.object({ keyword: z.string().min(1) }) },
+    responses: {
+      200: {
+        content: { "application/json": { schema: SongsSchema } },
+        description: "Search result",
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    const keyword = c.req.query("keyword");
+
+    try {
+      const songs = await prismaClient.song.findMany({
+        where: {
+          OR: [
+            { title: { contains: keyword, mode: "insensitive" } },
+            {
+              lyrics: {
+                some: {
+                  text: { contains: keyword, mode: "insensitive" },
+                },
+              },
+            },
+            {
+              artists: {
+                some: {
+                  name: { contains: keyword, mode: "insensitive" },
+                },
+              },
+            },
+          ],
+        },
+        include: {
+          artists: true,
+          lyrics: true,
+        },
+      });
+
+      return c.json({ songs }, 200);
+    } catch (error) {
+      return c.json({ error }, 400);
     }
   }
 );
