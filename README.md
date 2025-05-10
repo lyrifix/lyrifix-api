@@ -13,14 +13,14 @@ Read the complete explanation on the main repo: <https://github.com/lyrifix/lyri
 
 Songs:
 
-| Endpoint                 | HTTP     | Description       |
-| ------------------------ | -------- | ----------------- |
-| `/songs`                 | `GET`    | Get all songs     |
-| `/songs/search?keyword=` | `GET`    | Get song by slug  |
-| `/songs/:slug`           | `GET`    | Get song by slug  |
-| `/songs`                 | `POST`   | Add new song      |
-| `/songs/:id`             | `DELETE` | Delete song by id |
-| `/songs/:id`             | `PATCH`  | Update song by id |
+| Endpoint                 | HTTP     | Description          |
+| ------------------------ | -------- | -------------------- |
+| `/songs`                 | `GET`    | Get all songs        |
+| `/songs/search?keyword=` | `GET`    | Get song by keyword  |
+| `/songs/:slug`           | `GET`    | Get song by slug     |
+| `/songs`                 | `POST`   | Add new song         |
+| `/songs/:id`             | `DELETE` | Delete song by id    |
+| `/songs/:id`             | `PATCH`  | Update song by id    |
 
 Auth:
 
