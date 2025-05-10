@@ -85,12 +85,12 @@ export const dataLyrics: CreateLyricType[] = [
     text: prepareText(lyricInsideOut),
   },
   {
-    slug: "we-cant-be-friends",
+    slug: "we-cant-be-friends-v1",
     songSlug: "we-cant-be-friends",
     text: prepareText(lyricWeCantBeFriends),
   },
   {
-    slug: "supernatural",
+    slug: "supernatural-v1",
     songSlug: "supernatural",
     text: prepareText(lyricSupernatural),
   },
