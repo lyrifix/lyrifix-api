@@ -63,7 +63,7 @@ export const dataArtists: CreateArtistType[] = [
   },
   {
     slug: "rich-brian",
-    name: "Rich Bryan",
+    name: "Rich Brian",
     imageUrl: "https://ucarecdn.com/790f5f05-e494-40a6-8c83-57772e09a041/richbrian.jpeg",
   },
   {
