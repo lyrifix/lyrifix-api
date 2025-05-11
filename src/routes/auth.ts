@@ -5,10 +5,10 @@ import {
   LoginUserSchema,
   PrivateUserSchema,
   RegisterUserSchema,
-} from "../modules/user/schema";
+} from "../schema/user";
 import { hashPassword, verifyPassword } from "../lib/password";
 import { generateToken } from "../lib/token";
-import { checkAuthorized } from "../modules/auth.ts/middleware";
+import { checkAuthorized } from "../modules/middleware/auth";
 
 export const authRoutes = new OpenAPIHono();
 

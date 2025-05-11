@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import { prisma } from "../../lib/prisma";
-import { PrivateUser } from "../user/schema";
+import { PrivateUser } from "../../schema/user";
 import { verifyToken } from "../../lib/token";
 
 type Env = {
