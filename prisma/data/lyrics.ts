@@ -1,5 +1,5 @@
 import { prepareText } from "../../src/lib/text";
-import { CreateLyricType } from "../../src/schema/lyric";
+import { CreateLyricType } from "../../src/modules/lyric/schema";
 
 import lyric33x from "./lyrics/33x";
 import lyricAntiHero from "./lyrics/anti-hero";
