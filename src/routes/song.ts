@@ -1,5 +1,5 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { prismaClient } from "../lib/prisma";
+import { prisma } from "../lib/prisma";
 import { SongSchema, SongsSchema } from "../modules/song/schema";
 
 export const songRoutes = new OpenAPIHono();
@@ -28,7 +28,7 @@ songRoutes.openapi(
   }),
   async (c) => {
     try {
-      const songs = await prismaClient.song.findMany({
+      const songs = await prisma.song.findMany({
         include: {
           artists: true,
           lyrics: true,
@@ -65,7 +65,7 @@ songRoutes.openapi(
     const keyword = c.req.query("keyword");
 
     try {
-      const songs = await prismaClient.song.findMany({
+      const songs = await prisma.song.findMany({
         where: {
           OR: [
             { title: { contains: keyword, mode: "insensitive" } },
@@ -122,7 +122,7 @@ songRoutes.openapi(
   async (c) => {
     try {
       const slug = c.req.param("slug");
-      const song = await prismaClient.song.findFirst({
+      const song = await prisma.song.findFirst({
         where: { slug },
         include: {
           artists: true,
