@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
-import { LyricSchema } from "../lyric/schema";
-import { ArtistSchema } from "../artist/schema";
+import { LyricSchema } from "./lyric";
+import { ArtistSchema } from "./artist";
 
 export const SongSchema = z.object({
   id: z.string().ulid(),

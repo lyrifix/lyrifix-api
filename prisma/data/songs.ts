@@ -1,4 +1,4 @@
-import { CreateSongType } from "../../src/modules/song/schema";
+import { CreateSongType } from "../../src/schema/song";
 
 export const dataSongs: CreateSongType[] = [
   {

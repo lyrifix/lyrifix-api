@@ -9,10 +9,12 @@ interface JWTPayload {
 export function generateToken(userId: string) {
   const payload = { sub: userId };
   const token = jwt.sign(payload, tokenSecretKey, { expiresIn: "24h" });
+
   return token;
 }
 
 export function verifyToken(token: string): JWTPayload {
   const decodedToken = jwt.verify(token, tokenSecretKey);
+
   return decodedToken as JWTPayload;
 }

@@ -1,4 +1,4 @@
-import { CreateArtistType } from "../../src/modules/artist/schema";
+import { CreateArtistType } from "../../src/schema/artist";
 
 export const dataArtists: CreateArtistType[] = [
   {
