@@ -1,14 +1,9 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
-import {
-  LoginResponseSchema,
-  LoginUserSchema,
-  PrivateUserSchema,
-  RegisterUserSchema,
-} from "../schema/user";
+import { LoginResponseSchema, LoginUserSchema, PrivateUserSchema, RegisterUserSchema } from "../schema/user";
 import { hashPassword, verifyPassword } from "../lib/password";
 import { generateToken } from "../lib/token";
-import { checkAuthorized } from "../modules/middleware/auth";
+import { checkAuthorized } from "../middleware/auth";
 
 export const authRoutes = new OpenAPIHono();
 
