@@ -5,6 +5,7 @@ import { logger } from "hono/logger";
 import { configDocs, configGeneral } from "./configs/app";
 import { songRoutes } from "./routes/song";
 import { authRoutes } from "./routes/auth";
+import { searchRoutes } from "./routes/search";
 
 const app = new OpenAPIHono();
 
@@ -13,6 +14,7 @@ app.use(logger());
 
 app.basePath("/");
 app.route("/songs", songRoutes);
+app.route("/search", searchRoutes);
 app.route("/auth", authRoutes);
 
 app

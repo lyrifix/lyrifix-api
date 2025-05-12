@@ -4,14 +4,16 @@ import { SongSchema, SongsSchema } from "../schema/song";
 
 export const songRoutes = new OpenAPIHono();
 
+const tags = ["Songs"];
+
 //Get all songs
 songRoutes.openapi(
   createRoute({
     method: "get",
     path: "/",
-    tags: ["Songs"],
+    tags,
     summary: "Get all songs",
-    description: "Get all songs",
+    description: "Each songs include artists and lyrics.",
     responses: {
       200: {
         description: "Get all songs",
@@ -42,70 +44,14 @@ songRoutes.openapi(
   }
 );
 
-//Get songs by keyword
-songRoutes.openapi(
-  createRoute({
-    method: "get",
-    path: "/search",
-    tags: ["Songs"],
-    summary: "Get songs by keyword",
-    description: "Get songs by keyword",
-    request: { query: z.object({ keyword: z.string().min(1) }) },
-    responses: {
-      200: {
-        content: { "application/json": { schema: SongsSchema } },
-        description: "Search result",
-      },
-      400: {
-        description: "Bad request",
-      },
-    },
-  }),
-  async (c) => {
-    const keyword = c.req.query("keyword");
-
-    try {
-      const songs = await prisma.song.findMany({
-        where: {
-          OR: [
-            { title: { contains: keyword, mode: "insensitive" } },
-            {
-              lyrics: {
-                some: {
-                  text: { contains: keyword, mode: "insensitive" },
-                },
-              },
-            },
-            {
-              artists: {
-                some: {
-                  name: { contains: keyword, mode: "insensitive" },
-                },
-              },
-            },
-          ],
-        },
-        include: {
-          artists: true,
-          lyrics: true,
-        },
-      });
-
-      return c.json({ songs }, 200);
-    } catch (error) {
-      return c.json({ error }, 400);
-    }
-  }
-);
-
-//Get a song by slug
+// Get a song by slug
 songRoutes.openapi(
   createRoute({
     method: "get",
     path: "/:slug",
-    tags: ["Songs"],
+    tags,
     summary: "Get a song by slug",
-    description: "Get a song by slug",
+    description: "Each song include artists and lyrics.",
     request: { params: z.object({ slug: z.string() }) },
     responses: {
       200: {
