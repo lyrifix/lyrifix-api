@@ -19,7 +19,24 @@ export const PublicUsersSchema = z.array(PublicUserSchema);
 export const RegisterUserSchema = z.object({
   fullName: z.string(),
   email: z.string(),
-  password: z.string(),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 carachter" })
+    .regex(/[A-Z]/, {
+      message: "Password must contain at least one uppercase letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must contain at least one lowercase letter",
+    })
+    .regex(/\d/, {
+      message: "Password must contain at least one number",
+    })
+    .regex(/\W/, {
+      message: "Password must contain at least one special character",
+    })
+    .refine((val) => !/\s/.test(val), {
+      message: "Password must not contain spaces",
+    }),
 });
 
 export const LoginUserSchema = z.object({
