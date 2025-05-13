@@ -86,3 +86,42 @@ songRoutes.openapi(
     }
   }
 );
+
+songRoutes.openapi(
+  createRoute({
+    method: "patch",
+    path: "/:id",
+    tags,
+    description: "Update song by id",
+    request: {
+      params: z.object({ slug: z.string() }),
+      body: {
+        content: {},
+      },
+    },
+    responses: {
+      200: {
+        description: "Update a song by id",
+        content: {
+          "application/json": { schema: SongSchema },
+        },
+      },
+      404: {
+        description: "Get a song by id not found",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      const song = prisma.song.update({
+        data: {},
+        where: {
+          id: id,
+        },
+      });
+    } catch (error) {
+      return c.json(error);
+    }
+  }
+);
