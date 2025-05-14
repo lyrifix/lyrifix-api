@@ -1,6 +1,8 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
-import { SongSchema, SongsSchema } from "../schema/song";
+import { createExtraSlug, createSlugify } from "../lib/slug";
+import { checkAuthorized } from "../middleware/auth";
+import { SongSchema, SongsSchema, UpdateSongSchema } from "../schema/song";
 
 export const songRoutes = new OpenAPIHono();
 
@@ -87,16 +89,32 @@ songRoutes.openapi(
   }
 );
 
+// Patch song by id
 songRoutes.openapi(
   createRoute({
     method: "patch",
     path: "/:id",
     tags,
+    summary: "Update song by id",
     description: "Update song by id",
+    middleware: checkAuthorized,
     request: {
-      params: z.object({ slug: z.string() }),
+      headers: z.object({
+        Authorization: z
+          .string()
+          .regex(/^Bearer .+$/)
+          .openapi({
+            description: "Bearer token for authentication",
+            example: "Bearer ehyajshdasohdlaks.jsakdj...",
+          }),
+      }),
+      params: z.object({ id: z.string().ulid() }),
       body: {
-        content: {},
+        content: {
+          "application/json": {
+            schema: UpdateSongSchema,
+          },
+        },
       },
     },
     responses: {
@@ -114,14 +132,22 @@ songRoutes.openapi(
   async (c) => {
     try {
       const id = c.req.param("id");
-      const song = prisma.song.update({
-        data: {},
+      const updateSongJSON = await c.req.json();
+      const song = await prisma.song.update({
+        data: {
+          ...updateSongJSON,
+          slug: updateSongJSON.title
+            ? createSlugify(`${updateSongJSON.title}-${createExtraSlug()}`)
+            : undefined,
+        },
         where: {
           id: id,
         },
       });
+
+      return c.json({ song }, 200);
     } catch (error) {
-      return c.json(error);
+      return c.json({ error }, 404);
     }
   }
 );
