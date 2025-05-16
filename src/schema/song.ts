@@ -7,20 +7,22 @@ export const SongSchema = z.object({
   slug: z.string(),
   title: z.string(),
   imageUrl: z.string().nullable(),
-  createdAt: z.string().datetime().optional().nullable(),
+  createdAt: z.string().datetime().optional(),
   updatedAt: z.string().datetime().optional().nullable(),
   artists: z.array(ArtistSchema),
   lyrics: z.array(LyricSchema),
 });
 
 export const CreateSongSchema = SongSchema.extend({
-  id: z.string().ulid().optional(),
-  artistSlugs: z.array(z.string()),
+  artistsId: z.array(z.string()),
+  lyricsText: z.string(),
 }).omit({
+  id: true,
+  slug: true,
+  lyrics: true,
+  artists: true,
   createdAt: true,
   updatedAt: true,
-  artists: true,
-  lyrics: true,
 });
 
 export const UpdateSongSchema = SongSchema.omit({

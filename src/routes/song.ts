@@ -2,7 +2,12 @@ import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { createExtraSlug, createSlugify } from "../lib/slug";
 import { checkAuthorized } from "../middleware/auth";
-import { SongSchema, SongsSchema, UpdateSongSchema } from "../schema/song";
+import {
+  CreateSongSchema,
+  SongSchema,
+  SongsSchema,
+  UpdateSongSchema,
+} from "../schema/song";
 
 export const songRoutes = new OpenAPIHono();
 
@@ -89,6 +94,88 @@ songRoutes.openapi(
   }
 );
 
+// Add new song
+songRoutes.openapi(
+  createRoute({
+    method: "post",
+    path: "/",
+    tags,
+    summary: "Add new song",
+    description: "Add new song",
+    middleware: checkAuthorized,
+    request: {
+      headers: z.object({
+        Authorization: z
+          .string()
+          .regex(/^Bearer .+$/)
+          .openapi({
+            description: "Bearer token for authentication",
+            example: "Bearer ehyajshdasohdlaks.jsakdj...",
+          }),
+      }),
+      body: {
+        content: {
+          "application/json": {
+            schema: CreateSongSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Add new song",
+        content: {
+          "application/json": {
+            schema: SongSchema,
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const body = c.req.valid("json");
+      const artist = await prisma.artist.findUnique({
+        where: {
+          id: body.artistsId[0],
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      let newSong;
+      if (artist?.id) {
+        newSong = await prisma.song.create({
+          data: {
+            slug: `${createSlugify(body.title)}`,
+            title: body.title,
+            artists: {
+              connect: {
+                id: body.artistsId[0],
+              },
+            },
+            lyrics: {
+              connect: {
+                slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
+                text: body.lyricsText,
+              },
+            },
+          },
+        });
+      }
+
+      return c.json({ newSong }, 201);
+      // console.log(newSong);
+    } catch (error) {
+      return c.json({ error }, 400);
+    }
+  }
+);
+
 // Patch song by id
 songRoutes.openapi(
   createRoute({
@@ -148,6 +235,57 @@ songRoutes.openapi(
       return c.json({ song }, 200);
     } catch (error) {
       return c.json({ error }, 404);
+    }
+  }
+);
+
+// Delete lyric by id
+songRoutes.openapi(
+  createRoute({
+    method: "delete",
+    path: "/:id",
+    tags,
+    middleware: checkAuthorized,
+    summary: "Delete lyric",
+    description: "Delete lyric by id",
+    request: {
+      headers: z.object({
+        Authorization: z
+          .string()
+          .regex(/^Bearer .+$/)
+          .openapi({
+            description: "Bearer token for authentication",
+            example: "Bearer ehyajshdasohdlaks.jsakdj...",
+          }),
+      }),
+      params: z.object({ id: z.string().ulid() }),
+    },
+    responses: {
+      200: {
+        description: "Delete lyric",
+        content: {
+          "application/json": {
+            schema: SongSchema,
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      const song = await prisma.song.delete({
+        where: {
+          id: id,
+        },
+      });
+
+      return c.json({ song }, 201);
+    } catch (error) {
+      return c.json({ error }, 400);
     }
   }
 );
