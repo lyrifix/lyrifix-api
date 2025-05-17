@@ -1,5 +1,5 @@
 import { prepareText } from "../../src/lib/text";
-import { CreateLyricType } from "../../src/schema/lyric";
+import { DummyLyricType } from "../../src/schema/lyric";
 
 import lyric33x from "./lyrics/33x";
 import lyricAntiHero from "./lyrics/anti-hero";
@@ -17,7 +17,7 @@ import lyricYouWillBeInMyHeart from "./lyrics/you-will-be-in-my-heart";
 import lyricWeCantBeFriends from "./lyrics/we-cant-be-friends";
 import lyricSupernatural from "./lyrics/supernatural";
 
-export const dataLyrics: CreateLyricType[] = [
+export const dataLyrics: DummyLyricType[] = [
   {
     slug: "indonesia-raya-v1",
     songSlug: "indonesia-raya",
