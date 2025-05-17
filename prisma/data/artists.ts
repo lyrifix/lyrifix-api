@@ -92,4 +92,136 @@ export const dataArtists: CreateArtistType[] = [
     imageUrl:
       "https://ucarecdn.com/e786b6bf-2a90-44fa-b1ee-62a8e0fe6197/keshi.jpeg",
   },
+  {
+    slug: "slank",
+    name: "Slank",
+    imageUrl:
+      "https://ucarecdn.com/1a346da6-7dd4-439d-944e-d152adf94c75/slank.webp",
+  },
+  {
+    slug: "seringai",
+    name: "Seringai",
+    imageUrl:
+      "https://ucarecdn.com/73d2cc92-c5e6-4174-ab4e-63a87eccca1c/seringai.webp",
+  },
+  {
+    slug: "raisa",
+    name: "Raisa",
+    imageUrl:
+      "https://ucarecdn.com/8a540684-9093-4e4d-9d51-7eeb71223ab2/raisa.webp",
+  },
+  {
+    slug: "isyana-sarasvati",
+    name: "Isyana Sarasvati",
+    imageUrl:
+      "https://ucarecdn.com/221a0cca-4ccb-48c2-8c7a-6087067b3309/isyanasarasvati.webp",
+  },
+  {
+    slug: "tulus",
+    name: "Tulus",
+    imageUrl:
+      "https://ucarecdn.com/34b568f0-093c-424f-b1f6-c253b7fbf1f8/tulus.webp",
+  },
+  {
+    slug: "1975",
+    name: "1975",
+    imageUrl:
+      "https://ucarecdn.com/874954a6-0969-4b42-9168-0b367cdb3dcf/the1975.webp",
+  },
+  {
+    slug: "honne",
+    name: "Honne",
+    imageUrl:
+      "https://ucarecdn.com/936e092c-b445-4ad1-b7f4-738ab5211ab7/honne.webp",
+  },
+  {
+    slug: "arctic-monkeys",
+    name: "Arctic Monkeys",
+    imageUrl:
+      "https://ucarecdn.com/da5db0bd-7664-4c6f-b1d9-840e71d80603/arcticmonkeys.webp",
+  },
+  {
+    slug: "one-ok-rock",
+    name: "ONE OK ROCK",
+    imageUrl:
+      "https://ucarecdn.com/a052ee40-767b-4933-91b1-7a65b141601f/oneokrock.webp",
+  },
+  {
+    slug: "larc-en-ciel",
+    name: "L'Arc-en-Ciel",
+    imageUrl:
+      "https://ucarecdn.com/17009083-0e7d-469f-9123-a5b389d9101c/larcenciel.webp",
+  },
+  {
+    slug: "olivia-rodrigo",
+    name: "Olivia Rodrigo",
+    imageUrl:
+      "https://ucarecdn.com/5eb353b7-4a2f-4066-a1cf-f8977d697e31/oliviarodrigo.webp",
+  },
+  {
+    slug: "sabrina-carpenter",
+    name: "Sabrina Carpenter",
+    imageUrl:
+      "https://ucarecdn.com/391df40c-11c6-4ad2-a608-3e0d08bd9910/sabrinacarpenter.webp",
+  },
+  {
+    slug: "sheila-on-7",
+    name: "Sheila On 7",
+    imageUrl:
+      "https://ucarecdn.com/2fb475ca-ce53-48e4-8907-2495f29c5931/sheilaon7.webp",
+  },
+  {
+    slug: "padi",
+    name: "Padi",
+    imageUrl:
+      "https://ucarecdn.com/a1e8bd1f-fb53-4a0d-a9ec-98416f35f94b/padi.webp",
+  },
+  {
+    slug: "dewa-19",
+    name: "Dewa 19",
+    imageUrl:
+      "https://ucarecdn.com/3ec5140c-2446-4ea8-9ba1-6dbc7b07db29/dewa19.webp",
+  },
+  {
+    slug: "blink-182",
+    name: "blink-182",
+    imageUrl:
+      "https://ucarecdn.com/580e562e-f420-4014-b3b6-bd76fc00baab/blink182.webp",
+  },
+  {
+    slug: "simple-plan",
+    name: "Simple Plan",
+    imageUrl:
+      "https://ucarecdn.com/9934077d-a64b-401e-8615-98183baec590/simpleplan.webp",
+  },
+  {
+    slug: "coldplay",
+    name: "Coldplay",
+    imageUrl:
+      "https://ucarecdn.com/3bef92fd-3876-4da7-b2b6-a3ae0451158c/coldplay.webp",
+  },
+  {
+    slug: "maroon-5",
+    name: "Maroon 5",
+    imageUrl:
+      "https://ucarecdn.com/92b0804a-89df-4cd2-aa46-33d462566afe/maroon5.webp",
+  },
+  {
+    slug: "the-script",
+    name: "The Script",
+    imageUrl:
+      "https://ucarecdn.com/de41ce44-6155-4d81-80b1-5ab99d90d2cd/thescript.webp",
+  },
+  {
+    slug: "the-smashing-pumpkins",
+    name: "The Smashing Pumpkins",
+    imageUrl:
+      "https://ucarecdn.com/539e8a2b-0339-4318-a4c3-70019244b4c8/thesmashingpumpkins.webp",
+  },
+  {
+    slug: "green-day",
+    name: "Green Day",
+    imageUrl:
+      "https://ucarecdn.com/6b9192cc-f5b7-44e5-86f6-e0717204b56f/greenday.webp",
+  },
 ];
