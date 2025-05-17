@@ -7,20 +7,32 @@ export const SongSchema = z.object({
   slug: z.string(),
   title: z.string(),
   imageUrl: z.string().nullable(),
-  createdAt: z.string().datetime().optional().nullable(),
+  createdAt: z.string().datetime().optional(),
   updatedAt: z.string().datetime().optional().nullable(),
   artists: z.array(ArtistSchema),
   lyrics: z.array(LyricSchema),
 });
 
-export const CreateSongSchema = SongSchema.extend({
-  id: z.string().ulid().optional(),
+export const DummySongSchema = SongSchema.extend({
   artistSlugs: z.array(z.string()),
 }).omit({
+  id: true,
+  lyrics: true,
+  artists: true,
   createdAt: true,
   updatedAt: true,
-  artists: true,
+});
+
+export const CreateSongSchema = SongSchema.extend({
+  artistsId: z.array(z.string()),
+  lyricsText: z.string(),
+}).omit({
+  id: true,
+  slug: true,
   lyrics: true,
+  artists: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 export const UpdateSongSchema = SongSchema.omit({
@@ -36,3 +48,4 @@ export const SongsSchema = z.array(SongSchema);
 export type SongType = z.infer<typeof SongSchema>;
 export type CreateSongType = z.infer<typeof CreateSongSchema>;
 export type UpdateSongType = z.infer<typeof UpdateSongSchema>;
+export type DummySongType = z.infer<typeof DummySongSchema>;
