@@ -37,7 +37,9 @@ lyricRoutes.openapi(
   }),
   async (c) => {
     try {
-      const lyrics = await prisma.lyric.findMany();
+      const lyrics = await prisma.lyric.findMany({
+        include: { song: { include: { artists: true } } },
+      });
 
       return c.json({ lyrics }, 200);
     } catch (error) {
@@ -60,24 +62,18 @@ lyricRoutes.openapi(
     responses: {
       200: {
         description: "Get lyric by id",
-        content: {
-          "application/json": {
-            schema: LyricSchema,
-          },
-        },
+        content: { "application/json": { schema: LyricSchema } },
       },
-      400: {
-        description: "Bad request",
-      },
+      400: { description: "Bad request" },
     },
   }),
   async (c) => {
     try {
       const id = c.req.param("id");
+
       const lyric = await prisma.lyric.findUnique({
-        where: {
-          id: id,
-        },
+        where: { id: id },
+        include: { song: { include: { artists: true } } },
       });
 
       return c.json({ lyric }, 200);

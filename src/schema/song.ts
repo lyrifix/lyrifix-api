@@ -1,16 +1,11 @@
 import { z } from "@hono/zod-openapi";
 import { LyricSchema } from "./lyric";
 import { ArtistSchema } from "./artist";
+import { BaseSongSchema } from "./shared";
 
-export const SongSchema = z.object({
-  id: z.string().ulid(),
-  slug: z.string(),
-  title: z.string(),
-  imageUrl: z.string().nullable(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional().nullable(),
-  artists: z.array(ArtistSchema),
-  lyrics: z.array(LyricSchema),
+export const SongSchema = BaseSongSchema.extend({
+  artists: z.array(ArtistSchema).optional(),
+  lyrics: z.array(LyricSchema).optional(),
 });
 
 export const DummySongSchema = SongSchema.extend({
