@@ -8,19 +8,16 @@ export const SongSchema = BaseSongSchema.extend({
   lyrics: z.array(LyricSchema).optional(),
 });
 
-export const DummySongSchema = SongSchema.extend({
+export const DummySongSchema = BaseSongSchema.extend({
   artistSlugs: z.array(z.string()),
 }).omit({
   id: true,
-  lyrics: true,
-  artists: true,
   createdAt: true,
   updatedAt: true,
 });
 
 export const CreateSongSchema = SongSchema.extend({
   artistsId: z.array(z.string()),
-  lyricsText: z.string(),
 }).omit({
   id: true,
   slug: true,

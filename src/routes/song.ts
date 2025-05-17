@@ -134,6 +134,8 @@ songRoutes.openapi(
     try {
       const body = c.req.valid("json");
 
+      console.log(body);
+
       // TODO: check all artists, is exist in database?
       // if not exist, create new artist
       for (const artisId of body.artistsId) {

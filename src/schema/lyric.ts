@@ -14,7 +14,7 @@ export const CreateLyricSchema = LyricSchema.omit({
   updatedAt: true,
 });
 
-export const DummyLyricSchema = LyricSchema.extend({
+export const DummyLyricSchema = BaseLyricSchema.extend({
   songSlug: z.string(),
 }).omit({
   id: true,
