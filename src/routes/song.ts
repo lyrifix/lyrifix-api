@@ -2,12 +2,7 @@ import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { createExtraSlug, createSlugify } from "../lib/slug";
 import { checkAuthorized } from "../middleware/auth";
-import {
-  CreateSongSchema,
-  SongSchema,
-  SongsSchema,
-  UpdateSongSchema,
-} from "../schema/song";
+import { CreateSongSchema, SongSchema, SongsSchema, UpdateSongSchema } from "../schema/song";
 
 export const songRoutes = new OpenAPIHono();
 
@@ -126,7 +121,7 @@ songRoutes.openapi(
         description: "Add new song",
         content: {
           "application/json": {
-            schema: SongSchema,
+            schema: SongSchema.omit({ lyrics: true }),
           },
         },
       },
@@ -138,38 +133,38 @@ songRoutes.openapi(
   async (c) => {
     try {
       const body = c.req.valid("json");
-      const artist = await prisma.artist.findUnique({
-        where: {
-          id: body.artistsId[0],
-        },
-        select: {
-          id: true,
-        },
-      });
 
-      let newSong;
-      if (artist?.id) {
-        newSong = await prisma.song.create({
-          data: {
-            slug: `${createSlugify(body.title)}`,
-            title: body.title,
-            artists: {
-              connect: {
-                id: body.artistsId[0],
-              },
-            },
-            lyrics: {
-              connect: {
-                slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
-                text: body.lyricsText,
-              },
-            },
+      // TODO: check all artists, is exist in database?
+      // if not exist, create new artist
+      for (const artisId of body.artistsId) {
+        await prisma.artist.findUnique({
+          where: {
+            id: artisId,
+          },
+          select: {
+            id: true,
           },
         });
       }
 
+      const newSong = await prisma.song.create({
+        data: {
+          slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
+          title: body.title,
+          imageUrl: body.imageUrl,
+          artists: {
+            connect: body.artistsId.map((id) => ({ id })),
+          },
+        },
+        select: {
+          slug: true,
+          title: true,
+          imageUrl: true,
+          artists: true,
+        },
+      });
+
       return c.json({ newSong }, 201);
-      // console.log(newSong);
     } catch (error) {
       return c.json({ error }, 400);
     }
