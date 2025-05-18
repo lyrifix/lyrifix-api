@@ -1,6 +1,6 @@
-import { CreateArtistType } from "../../src/schema/artist";
+import { DummyArtistType } from "../../src/schema/artist";
 
-export const dataArtists: CreateArtistType[] = [
+export const dataArtists: DummyArtistType[] = [
   {
     slug: "taylor-swift",
     name: "Taylor Swift",
