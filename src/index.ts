@@ -8,6 +8,7 @@ import { lyricRoutes } from "./routes/lyric";
 import { searchRoutes } from "./routes/search";
 import { songRoutes } from "./routes/song";
 import { artistRoutes } from "./routes/artist";
+import { usersRoutes } from "./routes/user";
 
 const app = new OpenAPIHono();
 
@@ -15,11 +16,12 @@ app.use(cors());
 app.use(logger());
 
 app.basePath("/");
+app.route("/auth", authRoutes);
+app.route("/users", usersRoutes);
 app.route("/artists", artistRoutes);
 app.route("/songs", songRoutes);
 app.route("/lyrics", lyricRoutes);
 app.route("/search", searchRoutes);
-app.route("/auth", authRoutes);
 
 app
   .doc(configDocs.openapi, {
