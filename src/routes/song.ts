@@ -152,12 +152,6 @@ songRoutes.openapi(
           },
           userId,
         },
-        select: {
-          slug: true,
-          title: true,
-          imageUrl: true,
-          artists: true,
-        },
       });
 
       return c.json({ newSong }, 201);
