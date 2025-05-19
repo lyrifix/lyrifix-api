@@ -114,21 +114,13 @@ songRoutes.openapi(
             example: "Bearer ehyajshdasohdlaks.jsakdj...",
           }),
       }),
-      body: {
-        content: {
-          "application/json": {
-            schema: CreateSongSchema,
-          },
-        },
-      },
+      body: { content: { "application/json": { schema: CreateSongSchema } } },
     },
     responses: {
       200: {
         description: "Add new song",
         content: {
-          "application/json": {
-            schema: SongSchema.omit({ lyrics: true }),
-          },
+          "application/json": { schema: SongSchema.omit({ lyrics: true }) },
         },
       },
       400: {
@@ -140,18 +132,11 @@ songRoutes.openapi(
     try {
       const body = c.req.valid("json");
 
-      console.log(body);
-
-      // TODO: check all artists, is exist in database?
-      // if not exist, create new artist
-      for (const artisId of body.artistsId) {
+      // Check all artists, is exist in database
+      for (const artistId of body.artistIds) {
         await prisma.artist.findUnique({
-          where: {
-            id: artisId,
-          },
-          select: {
-            id: true,
-          },
+          where: { id: artistId },
+          select: { id: true },
         });
       }
 
@@ -163,7 +148,7 @@ songRoutes.openapi(
           title: body.title,
           imageUrl: body.imageUrl,
           artists: {
-            connect: body.artistsId.map((id) => ({ id })),
+            connect: body.artistIds.map((id) => ({ id })),
           },
           userId,
         },

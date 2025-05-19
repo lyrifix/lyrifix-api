@@ -19,7 +19,7 @@ export const SeedSongSchema = BaseSongSchema.extend({
 });
 
 export const CreateSongSchema = SongSchema.extend({
-  artistsId: z.array(z.string()),
+  artistIds: z.array(z.string().min(1)),
 }).omit({
   id: true,
   slug: true,
