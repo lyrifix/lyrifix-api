@@ -206,6 +206,7 @@ songRoutes.openapi(
         });
       }
 
+      const userId = c.get("user").id;
       const newSong = await prisma.song.create({
         data: {
           slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
@@ -213,6 +214,9 @@ songRoutes.openapi(
           imageUrl: body.imageUrl,
           artists: {
             connect: body.artistsId.map((id) => ({ id })),
+          },
+          submitBy: {
+            connect: { id: userId },
           },
         },
         select: {
