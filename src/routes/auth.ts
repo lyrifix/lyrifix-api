@@ -41,8 +41,7 @@ authRoutes.openapi(
 
       const user = await prisma.user.create({
         data: {
-          fullName: body.fullName,
-          email: body.email,
+          ...body,
           password: { create: { hash: await hashPassword(body.password) } },
         },
         omit: { email: true },

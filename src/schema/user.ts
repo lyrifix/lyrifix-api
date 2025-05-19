@@ -3,6 +3,7 @@ import { BaseArtistSchema, BaseLyricSchema, BaseSongSchema } from "./shared";
 
 export const PrivateUserSchema = z.object({
   id: z.string().ulid(),
+  username: z.string(),
   fullName: z.string(),
   email: z.string(),
   createdAt: z.date(),
