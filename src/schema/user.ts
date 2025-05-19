@@ -1,4 +1,5 @@
 import { z } from "@hono/zod-openapi";
+import { BaseArtistSchema, BaseLyricSchema, BaseSongSchema } from "./shared";
 
 export const PrivateUserSchema = z.object({
   id: z.string().ulid(),
@@ -12,6 +13,10 @@ export type PrivateUser = z.infer<typeof PrivateUserSchema>;
 
 export const PublicUserSchema = PrivateUserSchema.omit({
   email: true,
+}).extend({
+  artists: z.array(BaseArtistSchema).optional(),
+  songs: z.array(BaseSongSchema).optional(),
+  lyrics: z.array(BaseLyricSchema).optional(),
 });
 
 export const PublicUsersSchema = z.array(PublicUserSchema);

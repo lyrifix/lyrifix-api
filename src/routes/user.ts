@@ -28,18 +28,18 @@ usersRoutes.openapi(
   }
 );
 
-// Get user by id
+// Get user by username
 usersRoutes.openapi(
   createRoute({
     method: "get",
-    path: "/:id",
+    path: "/:username",
     tags,
-    summary: "Get user by id",
-    request: { params: z.object({ id: z.string() }) },
+    summary: "Get user by username",
+    request: { params: z.object({ username: z.string() }) },
     responses: {
       200: {
         content: { "application/json": { schema: PublicUsersSchema } },
-        description: "Get user by id",
+        description: "Get user by username",
       },
       404: {
         description: "User not found",
@@ -47,15 +47,19 @@ usersRoutes.openapi(
     },
   }),
   async (c) => {
-    const { id } = c.req.valid("param");
+    const { username } = c.req.valid("param");
+
     const user = await prisma.user.findUnique({
-      where: { id },
+      where: { username },
       omit: { email: true },
+      include: {
+        artists: true,
+        songs: true,
+        lyrics: true,
+      },
     });
 
-    if (!user) {
-      return c.notFound();
-    }
+    if (!user) return c.notFound();
 
     return c.json(user);
   }
