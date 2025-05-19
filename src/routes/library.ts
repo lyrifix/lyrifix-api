@@ -34,12 +34,22 @@ libraryRoutes.openapi(
       // TODO: Raw SQL via TypedSQL would be better
       const [userData, artists, songs, lyrics] = await Promise.all([
         prisma.user.findUnique({ where: { id: user.id } }),
-        prisma.artist.findMany({ where: { userId: user.id } }),
+
+        prisma.artist.findMany({
+          where: { userId: user.id },
+          orderBy: { updatedAt: "desc" },
+        }),
+
         prisma.song.findMany({
           where: { userId: user.id },
           include: { artists: true },
+          orderBy: { updatedAt: "desc" },
         }),
-        prisma.lyric.findMany({ where: { userId: user.id } }),
+
+        prisma.lyric.findMany({
+          where: { userId: user.id },
+          orderBy: { updatedAt: "desc" },
+        }),
       ]);
 
       return c.json({ user: userData, artists, songs, lyrics }, 200);
