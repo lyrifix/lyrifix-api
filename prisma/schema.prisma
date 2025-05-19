@@ -43,8 +43,9 @@ model Song {
   title    String
   imageUrl String?
 
-  artists Artist[]
-  lyrics  Lyric[]
+  submitBy User[]
+  artists  Artist[]
+  lyrics   Lyric[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -64,7 +65,8 @@ model Lyric {
 }
 
 model User {
-  id String @id @default(ulid())
+  id          String @id @default(ulid())
+  submitSongs Song[]
 
   // username String @unique
   fullName String

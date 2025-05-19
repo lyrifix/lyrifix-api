@@ -4,7 +4,7 @@
     "dev": "bun run --hot src/index.ts",
     "build": "bun install && bun db:migrate:deploy && bun db:gen",
     "start": "bun run src/index.ts",
-    "docker:up": "docker-compose up -d",
+    "db:up": "docker-compose up -d",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:gen": "prisma generate --no-hints",

@@ -17,6 +17,7 @@ Table Song {
   slug String [unique, not null]
   title String [not null]
   imageUrl String
+  submitBy User [not null]
   artists Artist [not null]
   lyrics Lyric [not null]
   createdAt DateTime [default: `now()`, not null]
@@ -35,6 +36,7 @@ Table Lyric {
 
 Table User {
   id String [pk]
+  submitSongs Song [not null]
   fullName String [not null]
   email String [unique, not null]
   password Password
@@ -54,6 +56,11 @@ Table Password {
 Table ArtistToSong {
   songsId String [ref: > Song.id]
   artistsId String [ref: > Artist.id]
+}
+
+Table SongToUser {
+  submitbyId String [ref: > User.id]
+  submitsongsId String [ref: > Song.id]
 }
 
 Ref: Lyric.songId > Song.id [delete: Cascade]
