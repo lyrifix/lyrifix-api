@@ -5,6 +5,8 @@ export const ArtistSchema = BaseArtistSchema.extend({
   songs: z.array(BaseSongSchema).optional(),
 });
 
+export const ArtistsSchema = z.array(ArtistSchema);
+
 export const CreateArtistSchema = BaseArtistSchema.omit({
   id: true,
   slug: true,

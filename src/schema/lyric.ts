@@ -7,6 +7,8 @@ export const LyricSchema = BaseLyricSchema.extend({
   }).optional(),
 });
 
+export const LyricsSchema = z.array(LyricSchema);
+
 export const CreateLyricSchema = LyricSchema.omit({
   id: true,
   slug: true,
@@ -30,8 +32,6 @@ export const UpdateLyricSchema = LyricSchema.omit({
   createdAt: true,
   updatedAt: true,
 });
-
-export const LyricsSchema = z.array(LyricSchema);
 
 export type LyricType = z.infer<typeof LyricSchema>;
 export type LyricsType = z.infer<typeof LyricsSchema>;

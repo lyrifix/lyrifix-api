@@ -26,3 +26,7 @@ export const BaseLyricSchema = z.object({
   createdAt: z.string().datetime().optional(),
   updatedAt: z.string().datetime().optional().nullable(),
 });
+
+export const BaseArtistsSchema = z.array(BaseArtistSchema);
+export const BaseSongsSchema = z.array(BaseSongSchema);
+export const BaseLyricsSchema = z.array(BaseLyricSchema);

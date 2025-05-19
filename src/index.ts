@@ -2,12 +2,14 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+
 import { configDocs, configGeneral } from "./configs/app";
+import { artistRoutes } from "./routes/artist";
 import { authRoutes } from "./routes/auth";
+import { libraryRoutes } from "./routes/library";
 import { lyricRoutes } from "./routes/lyric";
 import { searchRoutes } from "./routes/search";
 import { songRoutes } from "./routes/song";
-import { artistRoutes } from "./routes/artist";
 import { usersRoutes } from "./routes/user";
 
 const app = new OpenAPIHono();
@@ -22,6 +24,7 @@ app.route("/artists", artistRoutes);
 app.route("/songs", songRoutes);
 app.route("/lyrics", lyricRoutes);
 app.route("/search", searchRoutes);
+app.route("/library", libraryRoutes);
 
 app
   .doc(configDocs.openapi, {

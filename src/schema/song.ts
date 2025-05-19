@@ -8,6 +8,8 @@ export const SongSchema = BaseSongSchema.extend({
   lyrics: z.array(LyricSchema).optional(),
 });
 
+export const SongsSchema = z.array(SongSchema);
+
 export const SeedSongSchema = BaseSongSchema.extend({
   artistSlugs: z.array(z.string()),
 }).omit({
@@ -36,7 +38,6 @@ export const UpdateSongSchema = SongSchema.omit({
   updatedAt: true,
 }).partial();
 
-export const SongsSchema = z.array(SongSchema);
 export type SongType = z.infer<typeof SongSchema>;
 export type CreateSongType = z.infer<typeof CreateSongSchema>;
 export type UpdateSongType = z.infer<typeof UpdateSongSchema>;

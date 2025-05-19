@@ -14,62 +14,6 @@ export const songRoutes = new OpenAPIHono();
 
 const tags = ["Songs"];
 
-// User library
-songRoutes.openapi(
-  createRoute({
-    method: "get",
-    path: "/library",
-    tags: tags,
-    summary: "Library",
-    description: "Get all song library by user id",
-    middleware: checkAuthorized,
-    request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
-    },
-    responses: {
-      200: {
-        description: "Get all song library by user id",
-        content: {
-          "application/json": { schema: z.array(BaseSongSchema) },
-        },
-      },
-      404: {
-        description: "User id not found",
-      },
-    },
-  }),
-  async (c) => {
-    try {
-      const userId = c.get("user").id;
-      const songs = await prisma.song.findMany({
-        where: {
-          submitBy: {
-            some: {
-              id: userId,
-            },
-          },
-        },
-      });
-
-      if (!songs) {
-        return c.notFound();
-      }
-
-      return c.json(songs);
-    } catch (error) {
-      return c.json({ error: error }, 400);
-    }
-  }
-);
-
 // Get all songs
 songRoutes.openapi(
   createRoute({
@@ -212,6 +156,7 @@ songRoutes.openapi(
       }
 
       const userId = c.get("user").id;
+
       const newSong = await prisma.song.create({
         data: {
           slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
@@ -220,9 +165,7 @@ songRoutes.openapi(
           artists: {
             connect: body.artistsId.map((id) => ({ id })),
           },
-          submitBy: {
-            connect: { id: userId },
-          },
+          userId,
         },
         select: {
           slug: true,
