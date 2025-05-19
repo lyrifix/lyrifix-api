@@ -2,14 +2,19 @@ import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { createExtraSlug, createSlugify } from "../lib/slug";
 import { checkAuthorized } from "../middleware/auth";
-import { CreateSongSchema, SongSchema, SongsSchema, UpdateSongSchema } from "../schema/song";
+import {
+  CreateSongSchema,
+  SongSchema,
+  SongsSchema,
+  UpdateSongSchema,
+} from "../schema/song";
 import { BaseSongSchema } from "../schema/shared";
 
 export const songRoutes = new OpenAPIHono();
 
 const tags = ["Songs"];
 
-// your library
+// User library
 songRoutes.openapi(
   createRoute({
     method: "get",
@@ -65,7 +70,7 @@ songRoutes.openapi(
   }
 );
 
-//Get all songs
+// Get all songs
 songRoutes.openapi(
   createRoute({
     method: "get",
@@ -297,15 +302,15 @@ songRoutes.openapi(
   }
 );
 
-// Delete lyric by id
+// Delete song by id
 songRoutes.openapi(
   createRoute({
     method: "delete",
     path: "/:id",
     tags,
     middleware: checkAuthorized,
-    summary: "Delete lyric",
-    description: "Delete lyric by id",
+    summary: "Delete song by id",
+    description: "Delete song by id",
     request: {
       headers: z.object({
         Authorization: z
@@ -320,7 +325,7 @@ songRoutes.openapi(
     },
     responses: {
       200: {
-        description: "Delete lyric",
+        description: "Song successfully deleted",
         content: {
           "application/json": {
             schema: SongSchema,
