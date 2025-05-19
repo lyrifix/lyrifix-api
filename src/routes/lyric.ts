@@ -1,7 +1,12 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { createExtraSlug, createSlugify } from "../lib/slug";
-import { CreateLyricSchema, LyricSchema, LyricsSchema, UpdateLyricSchema } from "../schema/lyric";
+import {
+  CreateLyricSchema,
+  LyricSchema,
+  LyricsSchema,
+  UpdateLyricSchema,
+} from "../schema/lyric";
 import { checkAuthorized } from "../middleware/auth";
 
 export const lyricRoutes = new OpenAPIHono();
