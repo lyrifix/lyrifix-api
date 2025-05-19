@@ -154,7 +154,7 @@ songRoutes.openapi(
         },
       });
 
-      return c.json({ newSong }, 201);
+      return c.json(newSong, 201);
     } catch (error) {
       return c.json({ error }, 400);
     }
