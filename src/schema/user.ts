@@ -17,6 +17,9 @@ export const PublicUserSchema = PrivateUserSchema.omit({
 export const PublicUsersSchema = z.array(PublicUserSchema);
 
 export const RegisterUserSchema = z.object({
+  username: z.string().min(3, {
+    message: "Username must be at least 3 characters",
+  }),
   fullName: z.string(),
   email: z.string(),
   password: z
@@ -47,3 +50,7 @@ export const LoginUserSchema = z.object({
 export const LoginResponseSchema = z.object({
   token: z.string(),
 });
+
+export const SeedUserSchema = RegisterUserSchema;
+
+export type SeedUserType = z.infer<typeof SeedUserSchema>;

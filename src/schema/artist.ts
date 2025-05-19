@@ -12,7 +12,7 @@ export const CreateArtistSchema = BaseArtistSchema.omit({
   updatedAt: true,
 });
 
-export const DummyLyricSchema = BaseArtistSchema.extend({
+export const SeedArtistSchema = BaseArtistSchema.extend({
   id: z.string().ulid().optional(),
 }).omit({
   createdAt: true,
@@ -27,6 +27,6 @@ export const UpdateArtistSchema = BaseArtistSchema.omit({
 });
 
 export type ArtistType = z.infer<typeof ArtistSchema>;
-export type DummyArtistType = z.infer<typeof DummyLyricSchema>;
+export type SeedArtistType = z.infer<typeof SeedArtistSchema>;
 export type CreateArtistType = z.infer<typeof CreateArtistSchema>;
 export type UpdateArtistType = z.infer<typeof UpdateArtistSchema>;

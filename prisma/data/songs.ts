@@ -1,6 +1,6 @@
-import { DummySongType } from "../../src/schema/song";
+import { SeedSongType } from "../../src/schema/song";
 
-export const dataSongs: DummySongType[] = [
+export const dataSongs: SeedSongType[] = [
   {
     slug: "anti-hero",
     title: "Anti Hero",

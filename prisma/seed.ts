@@ -1,19 +1,51 @@
 import { PrismaClient } from "../src/generated/prisma";
+import { hashPassword } from "../src/lib/password";
 import { dataArtists } from "./data/artists";
 import { dataLyrics } from "./data/lyrics";
 import { dataSongs } from "./data/songs";
+import { dataUsers } from "./data/users";
+import { getRandomizedUserId } from "./randomize";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Seed Artists
-  for (const artist of dataArtists) {
-    const newArtist = await prisma.artist.upsert({
-      where: { slug: artist.slug },
-      update: artist,
-      create: artist,
+  // Seed Users
+  for (const userData of dataUsers) {
+    const { password, ...user } = userData;
+    const hashedPassword = await hashPassword(password);
+
+    const newUser = await prisma.user.upsert({
+      where: { email: userData.email },
+      update: user,
+      create: {
+        ...user,
+        password: { create: { hash: hashedPassword } },
+      },
     });
-    console.info(`🎤 Artist: ${newArtist.name}`);
+    console.info(`👤 User: ${newUser.username}`);
+  }
+
+  const userJohnDoe = await prisma.user.findUnique({
+    where: { username: "johndoe" },
+  });
+  const userJaneDoe = await prisma.user.findUnique({
+    where: { username: "janedoe" },
+  });
+  if (!userJohnDoe || !userJaneDoe) {
+    throw new Error("Users not found");
+  }
+
+  // Seed Artists
+  for (const artistData of dataArtists) {
+    const newArtist = await prisma.artist.upsert({
+      where: { slug: artistData.slug },
+      update: artistData,
+      create: {
+        ...artistData,
+        userId: getRandomizedUserId(userJohnDoe, userJaneDoe),
+      },
+    });
+    console.info(`🧑‍🎤 Artist: ${newArtist.name}`);
   }
 
   // Seed Songs
@@ -27,9 +59,10 @@ async function main() {
       create: {
         ...song,
         artists: { connect: connectArtistSlugs },
+        userId: getRandomizedUserId(userJohnDoe, userJaneDoe),
       },
     });
-    console.info(`🎤 Song: ${upsertedSong.title}`);
+    console.info(`🎵 Song: ${upsertedSong.title}`);
   }
 
   // Seed Lyrics
@@ -42,10 +75,13 @@ async function main() {
       create: {
         ...lyric,
         song: { connect: { slug: songSlug } },
+        user: {
+          connect: { id: getRandomizedUserId(userJohnDoe, userJaneDoe) },
+        },
       },
     });
 
-    console.info(`🎤 Lyric: ${upsertedLyric.slug}`);
+    console.info(`🗒️ Lyric: ${upsertedLyric.slug}`);
   }
 }
 

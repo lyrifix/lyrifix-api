@@ -14,7 +14,7 @@ export const CreateLyricSchema = LyricSchema.omit({
   updatedAt: true,
 });
 
-export const DummyLyricSchema = BaseLyricSchema.extend({
+export const SeedLyricSchema = BaseLyricSchema.extend({
   songSlug: z.string(),
 }).omit({
   id: true,
@@ -36,5 +36,5 @@ export const LyricsSchema = z.array(LyricSchema);
 export type LyricType = z.infer<typeof LyricSchema>;
 export type LyricsType = z.infer<typeof LyricsSchema>;
 export type CreateLyricType = z.infer<typeof CreateLyricSchema>;
-export type DummyLyricType = z.infer<typeof DummyLyricSchema>;
+export type SeedLyricType = z.infer<typeof SeedLyricSchema>;
 export type UpdateLyricType = z.infer<typeof UpdateLyricSchema>;
