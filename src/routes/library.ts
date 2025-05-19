@@ -35,7 +35,10 @@ libraryRoutes.openapi(
       const [userData, artists, songs, lyrics] = await Promise.all([
         prisma.user.findUnique({ where: { id: user.id } }),
         prisma.artist.findMany({ where: { userId: user.id } }),
-        prisma.song.findMany({ where: { userId: user.id } }),
+        prisma.song.findMany({
+          where: { userId: user.id },
+          include: { artists: true },
+        }),
         prisma.lyric.findMany({ where: { userId: user.id } }),
       ]);
 
