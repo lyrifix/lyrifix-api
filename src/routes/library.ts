@@ -1,11 +1,7 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { checkAuthorized } from "../middleware/auth";
-import {
-  BaseArtistsSchema,
-  BaseLyricsSchema,
-  BaseSongsSchema,
-} from "../schema/shared";
+import { LibrarySchema } from "../schema/library";
 
 export const libraryRoutes = new OpenAPIHono();
 
@@ -26,11 +22,7 @@ libraryRoutes.openapi(
       200: {
         content: {
           "application/json": {
-            schema: z.object({
-              artists: BaseArtistsSchema,
-              songs: BaseSongsSchema,
-              lyrics: BaseLyricsSchema,
-            }),
+            schema: LibrarySchema,
           },
         },
         description: "Get user's library data",
