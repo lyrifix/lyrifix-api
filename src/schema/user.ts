@@ -23,10 +23,10 @@ export const PublicUserSchema = PrivateUserSchema.omit({
 export const PublicUsersSchema = z.array(PublicUserSchema);
 
 export const RegisterUserSchema = z.object({
+  fullName: z.string(),
   username: z.string().min(3, {
     message: "Username must be at least 3 characters",
   }),
-  fullName: z.string(),
   email: z.string(),
   password: z
     .string()
