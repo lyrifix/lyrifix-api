@@ -1,6 +1,7 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import {
   ArtistSchema,
+  ArtistsSchema,
   CreateArtistSchema,
   UpdateArtistSchema,
 } from "../schema/artist";
@@ -23,7 +24,7 @@ artistRoutes.openapi(
     responses: {
       200: {
         description: "Get all artists",
-        content: { "application/json": { schema: ArtistSchema } },
+        content: { "application/json": { schema: ArtistsSchema } },
       },
       400: {
         description: "Bad request",
