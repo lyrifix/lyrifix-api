@@ -1,6 +1,7 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { SongsSchema } from "../schema/song";
+import { SearchSchema } from "../schema/search";
 
 export const searchRoutes = new OpenAPIHono();
 
@@ -17,7 +18,7 @@ searchRoutes.openapi(
     request: { query: z.object({ q: z.string().min(1) }) },
     responses: {
       200: {
-        content: { "application/json": { schema: SongsSchema } },
+        content: { "application/json": { schema: SearchSchema } },
         description: "Search result",
       },
       400: {
@@ -55,7 +56,7 @@ searchRoutes.openapi(
         },
       });
 
-      return c.json({ songs }, 200);
+      return c.json({ songs, artists: [], lyrics: [] }, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }
