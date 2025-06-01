@@ -9,11 +9,9 @@ export const LyricSchema = BaseLyricSchema.extend({
 
 export const LyricsSchema = z.array(LyricSchema);
 
-export const CreateLyricSchema = LyricSchema.omit({
-  id: true,
-  slug: true,
-  createdAt: true,
-  updatedAt: true,
+export const CreateLyricSchema = BaseLyricSchema.pick({
+  songId: true,
+  text: true,
 });
 
 export const SeedLyricSchema = BaseLyricSchema.extend({

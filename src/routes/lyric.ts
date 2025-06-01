@@ -1,13 +1,14 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
-import { createExtraSlug, createSlugify } from "../lib/slug";
+import { createExtraSlug } from "../lib/slug";
+import { checkAuthorized } from "../middleware/auth";
 import {
   CreateLyricSchema,
   LyricSchema,
   LyricsSchema,
   UpdateLyricSchema,
 } from "../schema/lyric";
-import { checkAuthorized } from "../middleware/auth";
+import { BaseLyricSchema } from "../schema/shared";
 
 export const lyricRoutes = new OpenAPIHono();
 
@@ -115,7 +116,7 @@ lyricRoutes.openapi(
         description: "Add new lyric",
         content: {
           "application/json": {
-            schema: LyricSchema,
+            schema: BaseLyricSchema,
           },
         },
       },
@@ -126,32 +127,19 @@ lyricRoutes.openapi(
   }),
   async (c) => {
     try {
-      const newLyricJSON = c.req.valid("json");
-      const song = await prisma.song.findUnique({
-        where: {
-          id: newLyricJSON.songId,
-        },
-        select: {
-          title: true,
+      const body = c.req.valid("json");
+      const user = c.get("user");
+
+      const newLyric = await prisma.lyric.create({
+        data: {
+          userId: user.id,
+          songId: body.songId,
+          slug: createExtraSlug(15),
+          text: body.text,
         },
       });
 
-      let lyric;
-      if (song?.title) {
-        lyric = await prisma.lyric.create({
-          data: {
-            slug: `${createSlugify(song?.title)}-${createExtraSlug()}`,
-            text: newLyricJSON.text,
-            song: {
-              connect: {
-                id: newLyricJSON.songId,
-              },
-            },
-          },
-        });
-      }
-
-      return c.json({ lyric }, 201);
+      return c.json(newLyric, 201);
     } catch (error) {
       return c.json({ error }, 400);
     }
