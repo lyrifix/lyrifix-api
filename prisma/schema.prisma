@@ -57,8 +57,8 @@ model Song {
 }
 
 model Lyric {
-  id   String  @id @default(ulid())
-  slug String? @unique
+  id   String @id @default(ulid())
+  slug String @unique
 
   songId String
   song   Song   @relation(fields: [songId], references: [id], onDelete: Cascade)
