@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { BaseArtistsSchema, BaseLyricsSchema } from "./shared";
-import { UserSchema } from "../../prisma/generated/zod";
+import { UserSchema } from "../generated/zod";
 import { SongsSchema } from "./song";
 
 export const LibrarySchema = z.object({
