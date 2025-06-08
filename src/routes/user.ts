@@ -32,7 +32,7 @@ usersRoutes.openapi(
 usersRoutes.openapi(
   createRoute({
     method: "get",
-    path: "/:username",
+    path: "/{username}",
     tags,
     summary: "Get user by username",
     request: { params: z.object({ username: z.string() }) },

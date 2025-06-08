@@ -117,7 +117,7 @@ artistRoutes.openapi(
 artistRoutes.openapi(
   createRoute({
     method: "get",
-    path: "/:slug",
+    path: "/{slug}",
     tags,
     summary: "Get an artist by slug",
     description: "Artist include songs",
@@ -159,7 +159,7 @@ artistRoutes.openapi(
 artistRoutes.openapi(
   createRoute({
     method: "patch",
-    path: "/:id",
+    path: "/{id}",
     tags,
     middleware: checkAuthorized,
     summary: "Edit artist",
@@ -225,7 +225,7 @@ artistRoutes.openapi(
 artistRoutes.openapi(
   createRoute({
     method: "delete",
-    path: "/:id",
+    path: "/{id}",
     tags,
     middleware: checkAuthorized,
     summary: "Delete artist",
