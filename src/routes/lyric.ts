@@ -53,7 +53,7 @@ lyricRoutes.openapi(
 lyricRoutes.openapi(
   createRoute({
     method: "get",
-    path: "/:slug",
+    path: "/{slug}",
     tags,
     summary: "Get a lyric by slug",
     description: "Get a lyric by slug",
@@ -150,7 +150,7 @@ lyricRoutes.openapi(
 lyricRoutes.openapi(
   createRoute({
     method: "patch",
-    path: "/:id",
+    path: "/{id}",
     tags,
     middleware: checkAuthorized,
     summary: "Edit lyric",
@@ -215,7 +215,7 @@ lyricRoutes.openapi(
 lyricRoutes.openapi(
   createRoute({
     method: "delete",
-    path: "/:id",
+    path: "/{id}",
     tags,
     middleware: checkAuthorized,
     summary: "Delete lyric",
@@ -255,7 +255,7 @@ lyricRoutes.openapi(
         },
       });
 
-      return c.json({ lyric }, 201);
+      return c.json({ lyric }, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }

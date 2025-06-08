@@ -56,7 +56,7 @@ songRoutes.openapi(
 songRoutes.openapi(
   createRoute({
     method: "get",
-    path: "/:slug",
+    path: "/{slug}",
     tags,
     summary: "Get a song by slug",
     description: "Each song include artists and lyrics.",
@@ -165,7 +165,7 @@ songRoutes.openapi(
 songRoutes.openapi(
   createRoute({
     method: "patch",
-    path: "/:id",
+    path: "/{id}",
     tags,
     summary: "Update song by id",
     description: "Update song by id",
@@ -228,7 +228,7 @@ songRoutes.openapi(
 songRoutes.openapi(
   createRoute({
     method: "delete",
-    path: "/:id",
+    path: "/{id}",
     tags,
     middleware: checkAuthorized,
     summary: "Delete song by id",
