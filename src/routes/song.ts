@@ -204,7 +204,10 @@ songRoutes.openapi(
   async (c) => {
     try {
       const id = c.req.param("id");
+      const userId = c.get("user").id;
       const updateSongJSON = await c.req.json();
+      delete updateSongJSON.userId; // Ensure userId is not updated
+
       const song = await prisma.song.update({
         data: {
           ...updateSongJSON,
@@ -214,6 +217,7 @@ songRoutes.openapi(
         },
         where: {
           id: id,
+          userId,
         },
       });
 
