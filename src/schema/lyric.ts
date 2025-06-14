@@ -23,12 +23,8 @@ export const SeedLyricSchema = BaseLyricSchema.extend({
   updatedAt: true,
 });
 
-export const UpdateLyricSchema = LyricSchema.omit({
-  id: true,
-  songId: true,
-  slug: true,
-  createdAt: true,
-  updatedAt: true,
+export const UpdateLyricSchema = LyricSchema.pick({
+  text: true,
 });
 
 export type LyricType = z.infer<typeof LyricSchema>;
