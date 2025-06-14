@@ -92,17 +92,20 @@ artistRoutes.openapi(
           },
         });
       }
+      const userId = c.get("user").id;
 
       const newArtist = await prisma.artist.create({
         data: {
           slug: `${createSlugify(body.name)}`,
           name: body.name,
           imageUrl: body.imageUrl,
+          userId,
         },
         select: {
           slug: true,
           name: true,
           imageUrl: true,
+          userId: true,
         },
       });
 
