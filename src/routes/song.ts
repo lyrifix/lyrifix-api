@@ -8,7 +8,6 @@ import {
   SongsSchema,
   UpdateSongSchema,
 } from "../schema/song";
-import { BaseSongSchema } from "../schema/shared";
 
 export const songRoutes = new OpenAPIHono();
 
@@ -132,6 +131,19 @@ songRoutes.openapi(
     try {
       const body = c.req.valid("json");
 
+      const song = await prisma.song.findFirst({
+        where: {
+          AND: [
+            { title: body.title },
+            { artists: { some: { id: { in: body.artistIds } } } },
+          ],
+        },
+      });
+
+      if (song) {
+        return c.json({ error: "Song already exist" }, 400);
+      }
+
       // Check all artists, is exist in database
       for (const artistId of body.artistIds) {
         await prisma.artist.findUnique({
@@ -203,17 +215,26 @@ songRoutes.openapi(
   }),
   async (c) => {
     try {
-      const id = c.req.param("id");
-      const updateSongJSON = await c.req.json();
+      const songId = c.req.param("id");
+      const userId = c.get("user").id;
+      const updateSongJSON = c.req.valid("json");
+
       const song = await prisma.song.update({
         data: {
-          ...updateSongJSON,
+          title: updateSongJSON.title,
+          imageUrl: updateSongJSON.imageUrl,
           slug: updateSongJSON.title
             ? createSlugify(`${updateSongJSON.title}-${createExtraSlug()}`)
             : undefined,
+          user: {
+            connect: { id: userId },
+          },
+          artists: {
+            connect: updateSongJSON.artistIds.map((id) => ({ id })),
+          },
         },
         where: {
-          id: id,
+          id: songId,
         },
       });
 

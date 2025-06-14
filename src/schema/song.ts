@@ -29,14 +29,12 @@ export const CreateSongSchema = SongSchema.extend({
   updatedAt: true,
 });
 
-export const UpdateSongSchema = SongSchema.omit({
-  id: true,
-  slug: true,
-  artists: true,
-  lyrics: true,
-  createdAt: true,
-  updatedAt: true,
-}).partial();
+export const UpdateSongSchema = SongSchema.pick({
+  title: true,
+  imageUrl: true,
+}).extend({
+  artistIds: z.array(z.string().min(1)),
+});
 
 export type SongType = z.infer<typeof SongSchema>;
 export type CreateSongType = z.infer<typeof CreateSongSchema>;

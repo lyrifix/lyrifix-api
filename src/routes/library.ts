@@ -1,4 +1,4 @@
-import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { checkAuthorized } from "../middleware/auth";
 import { LibrarySchema } from "../schema/library";
