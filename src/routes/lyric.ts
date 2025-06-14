@@ -190,17 +190,21 @@ lyricRoutes.openapi(
   }),
   async (c) => {
     try {
-      const id = c.req.param("id");
-      console.log("ID: " + id);
-
+      const userId = c.get("user").id;
+      const lyricId = c.req.param("id");
       const updateLyricJSON = c.req.valid("json");
 
       const lyric = await prisma.lyric.update({
         where: {
-          id: id,
+          id: lyricId,
         },
         data: {
           text: updateLyricJSON.text,
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
         },
       });
 

@@ -29,7 +29,7 @@ export const CreateSongSchema = SongSchema.extend({
   updatedAt: true,
 });
 
-export const UpdateSongSchema = SongSchema.omit({
+export const UpdateSongSchema = SongSchema.pick({
   id: true,
   slug: true,
   artists: true,
