@@ -77,7 +77,7 @@ lyricRoutes.openapi(
         include: { song: { include: { artists: true } } },
       });
 
-      return c.json({ lyric }, 200);
+      return c.json(lyric, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }
@@ -179,7 +179,7 @@ lyricRoutes.openapi(
         },
       });
 
-      return c.json({ lyric }, 201);
+      return c.json(lyric, 201);
     } catch (error) {
       return c.json({ error }, 400);
     }
@@ -202,11 +202,7 @@ lyricRoutes.openapi(
     responses: {
       200: {
         description: "Delete lyric",
-        content: {
-          "application/json": {
-            schema: LyricSchema,
-          },
-        },
+        content: { "application/json": { schema: LyricSchema } },
       },
       400: {
         description: "Bad request",
@@ -217,12 +213,10 @@ lyricRoutes.openapi(
     try {
       const id = c.req.param("id");
       const lyric = await prisma.lyric.delete({
-        where: {
-          id: id,
-        },
+        where: { id: id },
       });
 
-      return c.json({ lyric }, 200);
+      return c.json(lyric, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }
