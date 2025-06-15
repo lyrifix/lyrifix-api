@@ -203,6 +203,9 @@ songRoutes.openapi(
         data: {
           title: updateSongJSON.title,
           imageUrl: updateSongJSON.imageUrl,
+          slug: updateSongJSON.title
+            ? createSlugify(`${updateSongJSON.title}-${createExtraSlug()}`)
+            : undefined,
           user: {
             connect: { id: userId },
           },
