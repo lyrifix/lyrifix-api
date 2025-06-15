@@ -1,6 +1,5 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
-import { SongsSchema } from "../schema/song";
 import { SearchSchema } from "../schema/search";
 
 export const searchRoutes = new OpenAPIHono();

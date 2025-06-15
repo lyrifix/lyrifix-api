@@ -17,6 +17,7 @@ libraryRoutes.openapi(
     summary: "Get user's library",
     description: "Include all submitted artists, songs, lyrics.",
     // request: { query: z.object({ q: z.string().min(1) }) }, // Search for later
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     responses: {
       200: {
