@@ -192,7 +192,14 @@ songRoutes.openapi(
       const userId = c.get("user").id;
       const updateSongJSON = c.req.valid("json");
 
+      // Remove relation before connecting again
+      await prisma.song.update({
+        where: { id: songId },
+        data: { artists: { set: [] } },
+      });
+
       const song = await prisma.song.update({
+        where: { id: songId },
         data: {
           title: updateSongJSON.title,
           imageUrl: updateSongJSON.imageUrl,
@@ -202,9 +209,6 @@ songRoutes.openapi(
           artists: {
             connect: updateSongJSON.artistIds.map((id) => ({ id })),
           },
-        },
-        where: {
-          id: songId,
         },
       });
 
