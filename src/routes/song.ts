@@ -208,7 +208,7 @@ songRoutes.openapi(
         },
       });
 
-      return c.json({ song }, 200);
+      return c.json(song, 200);
     } catch (error) {
       return c.json({ error }, 404);
     }
@@ -231,11 +231,7 @@ songRoutes.openapi(
     responses: {
       200: {
         description: "Song successfully deleted",
-        content: {
-          "application/json": {
-            schema: SongSchema,
-          },
-        },
+        content: { "application/json": { schema: SongSchema } },
       },
       400: {
         description: "Bad request",
@@ -245,13 +241,9 @@ songRoutes.openapi(
   async (c) => {
     try {
       const id = c.req.param("id");
-      const song = await prisma.song.delete({
-        where: {
-          id: id,
-        },
-      });
+      const song = await prisma.song.delete({ where: { id: id } });
 
-      return c.json({ song }, 201);
+      return c.json(song, 201);
     } catch (error) {
       return c.json({ error }, 400);
     }
