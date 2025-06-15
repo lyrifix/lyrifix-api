@@ -42,7 +42,7 @@ lyricRoutes.openapi(
         include: { song: { include: { artists: true } } },
       });
 
-      return c.json({ lyrics }, 200);
+      return c.json(lyrics, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }
