@@ -18,7 +18,6 @@ export const SongSchema = BaseSongSchema.extend({
 export const SongsSchema = z.array(
   BaseSongSchema.extend({
     artists: z.array(ArtistSchema).optional(),
-    lyrics: z.array(LyricSchema).optional(),
   })
 );
 

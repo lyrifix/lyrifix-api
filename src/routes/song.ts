@@ -24,11 +24,7 @@ songRoutes.openapi(
     responses: {
       200: {
         description: "Get all songs",
-        content: {
-          "application/json": {
-            schema: SongsSchema,
-          },
-        },
+        content: { "application/json": { schema: SongsSchema } },
       },
       400: {
         description: "Bad request",
@@ -38,10 +34,7 @@ songRoutes.openapi(
   async (c) => {
     try {
       const songs = await prisma.song.findMany({
-        include: {
-          artists: true,
-          lyrics: true,
-        },
+        include: { artists: true },
       });
 
       return c.json(songs);
