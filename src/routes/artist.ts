@@ -201,7 +201,7 @@ artistRoutes.openapi(
         },
       });
 
-      return c.json({ artist }, 201);
+      return c.json(artist, 201);
     } catch (error) {
       return c.json({ error }, 400);
     }
@@ -247,7 +247,7 @@ artistRoutes.openapi(
         },
       });
 
-      return c.json({ artist }, 201);
+      return c.json(artist, 201);
     } catch (error) {
       return c.json({ error }, 400);
     }
