@@ -90,19 +90,11 @@ lyricRoutes.openapi(
     method: "post",
     path: "/",
     tags,
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     summary: "Add new lyric",
     description: "Add new lyric",
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       body: {
         content: {
           "application/json": {
@@ -152,19 +144,11 @@ lyricRoutes.openapi(
     method: "patch",
     path: "/{id}",
     tags,
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     summary: "Edit lyric",
     description: "Edit lyric",
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       params: z.object({ id: z.string().ulid() }),
       body: {
         content: {
@@ -221,19 +205,11 @@ lyricRoutes.openapi(
     method: "delete",
     path: "/{id}",
     tags,
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     summary: "Delete lyric",
     description: "Delete lyric by id",
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       params: z.object({ id: z.string().ulid() }),
     },
     responses: {

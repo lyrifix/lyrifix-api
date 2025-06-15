@@ -1,13 +1,13 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { prisma } from "../lib/prisma";
+import { createSlugify } from "../lib/slug";
+import { checkAuthorized } from "../middleware/auth";
 import {
   ArtistSchema,
   ArtistsSchema,
   CreateArtistSchema,
   UpdateArtistSchema,
 } from "../schema/artist";
-import { prisma } from "../lib/prisma";
-import { checkAuthorized } from "../middleware/auth";
-import { createSlugify } from "../lib/slug";
 
 export const artistRoutes = new OpenAPIHono();
 
@@ -55,17 +55,9 @@ artistRoutes.openapi(
     tags,
     summary: "Add new artist",
     description: "Add new artist",
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       body: { content: { "application/json": { schema: CreateArtistSchema } } },
     },
     responses: {
@@ -164,19 +156,11 @@ artistRoutes.openapi(
     method: "patch",
     path: "/{id}",
     tags,
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     summary: "Edit artist",
     description: "Edit artist",
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       params: z.object({ id: z.string().ulid() }),
       body: {
         content: {
@@ -230,19 +214,11 @@ artistRoutes.openapi(
     method: "delete",
     path: "/{id}",
     tags,
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     summary: "Delete artist",
     description: "Delete artist by id",
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       params: z.object({ id: z.string().ulid() }),
     },
     responses: {

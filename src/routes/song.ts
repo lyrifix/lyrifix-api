@@ -102,17 +102,9 @@ songRoutes.openapi(
     tags,
     summary: "Add new song",
     description: "Add new song",
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       body: { content: { "application/json": { schema: CreateSongSchema } } },
     },
     responses: {
@@ -181,17 +173,9 @@ songRoutes.openapi(
     tags,
     summary: "Update song by id",
     description: "Update song by id",
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       params: z.object({ id: z.string().ulid() }),
       body: {
         content: {
@@ -251,19 +235,11 @@ songRoutes.openapi(
     method: "delete",
     path: "/{id}",
     tags,
+    security: [{ Bearer: [] }],
     middleware: checkAuthorized,
     summary: "Delete song by id",
     description: "Delete song by id",
     request: {
-      headers: z.object({
-        Authorization: z
-          .string()
-          .regex(/^Bearer .+$/)
-          .openapi({
-            description: "Bearer token for authentication",
-            example: "Bearer ehyajshdasohdlaks.jsakdj...",
-          }),
-      }),
       params: z.object({ id: z.string().ulid() }),
     },
     responses: {

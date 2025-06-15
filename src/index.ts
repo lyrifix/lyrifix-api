@@ -31,6 +31,14 @@ app
     openapi: "3.1.0",
     info: { ...configGeneral, version: "v1" },
   })
+  .openAPIRegistry.registerComponent("securitySchemes", "Bearer", {
+    type: "http",
+    scheme: "bearer",
+    in: "header",
+    description: "Bearer token for authentication",
+  });
+
+app
   .get(
     "/",
     Scalar({
