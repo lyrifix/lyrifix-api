@@ -63,9 +63,7 @@ songRoutes.openapi(
     responses: {
       200: {
         description: "Get a song by slug",
-        content: {
-          "application/json": { schema: SongSchema },
-        },
+        content: { "application/json": { schema: SongSchema } },
       },
       404: {
         description: "Get a song by slug not found",
@@ -79,13 +77,11 @@ songRoutes.openapi(
         where: { slug },
         include: {
           artists: true,
-          lyrics: true,
+          lyrics: { include: { user: true } },
         },
       });
 
-      if (!song) {
-        return c.notFound();
-      }
+      if (!song) return c.notFound();
 
       return c.json(song);
     } catch (error) {
