@@ -1,7 +1,9 @@
 import { z } from "@hono/zod-openapi";
 import { BaseArtistSchema, BaseLyricSchema, BaseSongSchema } from "./shared";
+import { UserSchema } from "../generated/zod";
 
 export const LyricSchema = BaseLyricSchema.extend({
+  user: UserSchema.optional(),
   song: BaseSongSchema.extend({
     artists: z.array(BaseArtistSchema),
   }).optional(),

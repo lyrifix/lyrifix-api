@@ -150,26 +150,14 @@ lyricRoutes.openapi(
     description: "Edit lyric",
     request: {
       params: z.object({ id: z.string().ulid() }),
-      body: {
-        content: {
-          "application/json": {
-            schema: UpdateLyricSchema,
-          },
-        },
-      },
+      body: { content: { "application/json": { schema: UpdateLyricSchema } } },
     },
     responses: {
       200: {
         description: "Edit lyric",
-        content: {
-          "application/json": {
-            schema: LyricSchema,
-          },
-        },
+        content: { "application/json": { schema: LyricSchema } },
       },
-      400: {
-        description: "Bad request",
-      },
+      400: { description: "Bad request" },
     },
   }),
   async (c) => {
@@ -184,11 +172,10 @@ lyricRoutes.openapi(
         },
         data: {
           text: updateLyricJSON.text,
-          user: {
-            connect: {
-              id: userId,
-            },
-          },
+          user: { connect: { id: userId } },
+        },
+        include: {
+          user: true,
         },
       });
 
