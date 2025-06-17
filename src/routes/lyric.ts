@@ -39,7 +39,18 @@ lyricRoutes.openapi(
   async (c) => {
     try {
       const lyrics = await prisma.lyric.findMany({
-        include: { song: { include: { artists: true } } },
+        include: {
+          song: {
+            include: {
+              artists: true,
+            },
+          },
+          votes: {
+            select: {
+              userId: true,
+            },
+          },
+        },
       });
 
       return c.json(lyrics, 200);
@@ -217,6 +228,169 @@ lyricRoutes.openapi(
       });
 
       return c.json(lyric, 200);
+    } catch (error) {
+      return c.json({ error }, 400);
+    }
+  }
+);
+
+// add upvote
+lyricRoutes.openapi(
+  createRoute({
+    method: "patch",
+    path: "/{id}/upvote",
+    tags,
+    security: [{ Bearer: [] }],
+    middleware: checkAuthorized,
+    summary: "Add upvote",
+    description: "Add upvote",
+    request: {
+      params: z.object({ id: z.string().ulid() }),
+    },
+    responses: {
+      200: {
+        description: "Add upvote",
+        content: {
+          "application/json": {
+            schema: z.object({ message: z.string() }),
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      const user = c.get("user");
+
+      await prisma.lyric.update({
+        where: { id: id },
+        data: {
+          upvoteCount: { increment: 1 },
+          user: {
+            connect: { id: user.id },
+          },
+          votes: {
+            create: {
+              userId: user.id,
+              isUpvote: true,
+            },
+          },
+        },
+      });
+
+      return c.json({ message: "Upvote successfully" }, 200);
+    } catch (error) {
+      return c.json({ error }, 400);
+    }
+  }
+);
+
+// cancel upvote
+lyricRoutes.openapi(
+  createRoute({
+    method: "patch",
+    path: "/{id}/cancel-upvote",
+    tags,
+    security: [{ Bearer: [] }],
+    middleware: checkAuthorized,
+    summary: "Cancel upvote",
+    description: "Cancel upvote",
+    request: {
+      params: z.object({ id: z.string().ulid() }),
+    },
+    responses: {
+      200: {
+        description: "Cancel upvote",
+        content: {
+          "application/json": {
+            schema: z.object({ message: z.string() }),
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      const user = c.get("user");
+
+      const vote = await prisma.vote.findFirst({
+        where: {
+          AND: [{ lyricId: id }, { userId: user.id }],
+        },
+      });
+
+      if (!vote) {
+        throw new Error("Vote not found");
+      }
+
+      await prisma.vote.update({
+        where: { id: vote.id },
+        data: {
+          isUpvote: false,
+        },
+      });
+
+      await prisma.lyric.update({
+        where: {
+          id: id,
+        },
+        data: {
+          upvoteCount: {
+            decrement: 1,
+          },
+        },
+      });
+
+      return c.json({ message: "Cancel upvote successfully" }, 200);
+    } catch (error) {
+      return c.json({ error }, 400);
+    }
+  }
+);
+
+// get all lyrics sort by upvote descending
+lyricRoutes.openapi(
+  createRoute({
+    method: "get",
+    path: "/{id}",
+    tags,
+    summary: "Get all lyrics and sort by upvote descending",
+    description: "Get all lyrics and sort by upvote descending",
+    request: {
+      params: z.object({ id: z.string().ulid() }),
+    },
+    responses: {
+      200: {
+        description: "Sort by upvote descending",
+        content: {
+          "application/json": {
+            schema: LyricsSchema,
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      console.log(id);
+      const lyrics = await prisma.lyric.findMany({
+        where: { id: id },
+        include: { song: { include: { artists: true } }, votes: true },
+      });
+
+      return c.json(lyrics, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }

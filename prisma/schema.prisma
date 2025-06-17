@@ -64,10 +64,28 @@ model Lyric {
   songId String
   song   Song   @relation(fields: [songId], references: [id], onDelete: Cascade)
 
-  text String @db.Text
+  text        String @db.Text
+  upvoteCount Int    @db.Integer
+
+  votes Vote[]
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   userId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Vote {
+  id String @id @default(ulid())
+
+  isUpvote Boolean
+
+  userId String
+  User   User   @relation(fields: [userId], references: [id])
+
+  lyricId String?
+  lyric   Lyric?  @relation(fields: [lyricId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,6 +103,7 @@ model User {
   artists Artist[]
   songs   Song[]
   lyrics  Lyric[]
+  votes   Vote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
