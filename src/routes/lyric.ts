@@ -266,23 +266,32 @@ lyricRoutes.openapi(
       const id = c.req.param("id");
       const user = c.get("user");
 
-      await prisma.lyric.update({
-        where: { id: id },
-        data: {
-          upvoteCount: { increment: 1 },
-          user: {
-            connect: { id: user.id },
-          },
-          votes: {
-            create: {
-              userId: user.id,
-              isUpvote: true,
-            },
-          },
+      const vote = await prisma.vote.findFirst({
+        where: {
+          AND: [{ lyricId: id }, { userId: user.id }],
         },
       });
 
-      return c.json({ message: "Upvote successfully" }, 200);
+      if (!vote) {
+        await prisma.lyric.update({
+          where: { id: id },
+          data: {
+            upvoteCount: { increment: 1 },
+            user: {
+              connect: { id: user.id },
+            },
+            votes: {
+              create: {
+                userId: user.id,
+                isUpvote: true,
+              },
+            },
+          },
+        });
+        return c.json({ message: "Upvote successfully" }, 200);
+      } else {
+        return c.json({ message: "You've voted" }, 200);
+      }
     } catch (error) {
       return c.json({ error }, 400);
     }
@@ -331,13 +340,6 @@ lyricRoutes.openapi(
         throw new Error("Vote not found");
       }
 
-      await prisma.vote.update({
-        where: { id: vote.id },
-        data: {
-          isUpvote: false,
-        },
-      });
-
       await prisma.lyric.update({
         where: {
           id: id,
@@ -346,51 +348,21 @@ lyricRoutes.openapi(
           upvoteCount: {
             decrement: 1,
           },
+          votes: {
+            disconnect: {
+              id: vote.id,
+            },
+          },
+        },
+      });
+
+      await prisma.vote.delete({
+        where: {
+          id: vote.id,
         },
       });
 
       return c.json({ message: "Cancel upvote successfully" }, 200);
-    } catch (error) {
-      return c.json({ error }, 400);
-    }
-  }
-);
-
-// get all lyrics sort by upvote descending
-lyricRoutes.openapi(
-  createRoute({
-    method: "get",
-    path: "/{id}",
-    tags,
-    summary: "Get all lyrics and sort by upvote descending",
-    description: "Get all lyrics and sort by upvote descending",
-    request: {
-      params: z.object({ id: z.string().ulid() }),
-    },
-    responses: {
-      200: {
-        description: "Sort by upvote descending",
-        content: {
-          "application/json": {
-            schema: LyricsSchema,
-          },
-        },
-      },
-      400: {
-        description: "Bad request",
-      },
-    },
-  }),
-  async (c) => {
-    try {
-      const id = c.req.param("id");
-      console.log(id);
-      const lyrics = await prisma.lyric.findMany({
-        where: { id: id },
-        include: { song: { include: { artists: true } }, votes: true },
-      });
-
-      return c.json(lyrics, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }

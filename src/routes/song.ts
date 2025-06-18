@@ -34,7 +34,19 @@ songRoutes.openapi(
   async (c) => {
     try {
       const songs = await prisma.song.findMany({
-        include: { artists: true },
+        include: {
+          artists: true,
+          lyrics: {
+            select: {
+              upvoteCount: true,
+              votes: {
+                select: {
+                  userId: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       return c.json(songs);
