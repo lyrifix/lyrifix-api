@@ -39,7 +39,18 @@ lyricRoutes.openapi(
   async (c) => {
     try {
       const lyrics = await prisma.lyric.findMany({
-        include: { song: { include: { artists: true } } },
+        include: {
+          song: {
+            include: {
+              artists: true,
+            },
+          },
+          votes: {
+            select: {
+              userId: true,
+            },
+          },
+        },
       });
 
       return c.json(lyrics, 200);
@@ -217,6 +228,141 @@ lyricRoutes.openapi(
       });
 
       return c.json(lyric, 200);
+    } catch (error) {
+      return c.json({ error }, 400);
+    }
+  }
+);
+
+// add upvote
+lyricRoutes.openapi(
+  createRoute({
+    method: "patch",
+    path: "/{id}/upvote",
+    tags,
+    security: [{ Bearer: [] }],
+    middleware: checkAuthorized,
+    summary: "Add upvote",
+    description: "Add upvote",
+    request: {
+      params: z.object({ id: z.string().ulid() }),
+    },
+    responses: {
+      200: {
+        description: "Add upvote",
+        content: {
+          "application/json": {
+            schema: z.object({ message: z.string() }),
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      const user = c.get("user");
+
+      const vote = await prisma.vote.findFirst({
+        where: {
+          AND: [{ lyricId: id }, { userId: user.id }],
+        },
+      });
+
+      if (!vote) {
+        await prisma.lyric.update({
+          where: { id: id },
+          data: {
+            upvoteCount: { increment: 1 },
+            user: {
+              connect: { id: user.id },
+            },
+            votes: {
+              create: {
+                userId: user.id,
+                isUpvote: true,
+              },
+            },
+          },
+        });
+        return c.json({ message: "Upvote successfully" }, 200);
+      } else {
+        return c.json({ message: "You've voted" }, 200);
+      }
+    } catch (error) {
+      return c.json({ error }, 400);
+    }
+  }
+);
+
+// cancel upvote
+lyricRoutes.openapi(
+  createRoute({
+    method: "patch",
+    path: "/{id}/cancel-upvote",
+    tags,
+    security: [{ Bearer: [] }],
+    middleware: checkAuthorized,
+    summary: "Cancel upvote",
+    description: "Cancel upvote",
+    request: {
+      params: z.object({ id: z.string().ulid() }),
+    },
+    responses: {
+      200: {
+        description: "Cancel upvote",
+        content: {
+          "application/json": {
+            schema: z.object({ message: z.string() }),
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      const user = c.get("user");
+
+      const vote = await prisma.vote.findFirst({
+        where: {
+          AND: [{ lyricId: id }, { userId: user.id }],
+        },
+      });
+
+      if (!vote) {
+        throw new Error("Vote not found");
+      }
+
+      await prisma.lyric.update({
+        where: {
+          id: id,
+        },
+        data: {
+          upvoteCount: {
+            decrement: 1,
+          },
+          votes: {
+            disconnect: {
+              id: vote.id,
+            },
+          },
+        },
+      });
+
+      await prisma.vote.delete({
+        where: {
+          id: vote.id,
+        },
+      });
+
+      return c.json({ message: "Cancel upvote successfully" }, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }

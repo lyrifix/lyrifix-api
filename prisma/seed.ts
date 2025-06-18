@@ -78,6 +78,7 @@ async function main() {
         user: {
           connect: { id: getRandomizedUserId(userJohnDoe, userJaneDoe) },
         },
+        upvoteCount: 0,
       },
     });
 
