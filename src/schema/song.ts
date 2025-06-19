@@ -43,6 +43,7 @@ export const CreateSongSchema = SongSchema.extend({
 export const UpdateSongSchema = SongSchema.pick({
   title: true,
   imageUrl: true,
+  spotifyUrl: true,
 }).extend({
   artistIds: z.array(z.string().min(1)),
 });

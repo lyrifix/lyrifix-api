@@ -44,8 +44,9 @@ model Song {
   id   String @id @default(ulid())
   slug String @unique
 
-  title    String
-  imageUrl String?
+  title      String
+  imageUrl   String?
+  spotifyUrl String?
 
   artists Artist[]
   lyrics  Lyric[]

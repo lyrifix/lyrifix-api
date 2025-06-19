@@ -215,6 +215,7 @@ songRoutes.openapi(
         data: {
           title: updateSongJSON.title,
           imageUrl: updateSongJSON.imageUrl,
+          spotifyUrl: updateSongJSON.spotifyUrl,
           slug: updateSongJSON.title
             ? createSlugify(`${updateSongJSON.title}-${createExtraSlug()}`)
             : undefined,
