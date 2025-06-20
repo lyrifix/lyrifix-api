@@ -31,21 +31,25 @@ export const SeedSongSchema = BaseSongSchema.extend({
 
 export const CreateSongSchema = SongSchema.extend({
   artistIds: z.array(z.string().min(1)),
-}).omit({
-  id: true,
-  slug: true,
-  lyrics: true,
-  artists: true,
-  createdAt: true,
-  updatedAt: true,
-});
+})
+  .omit({
+    id: true,
+    slug: true,
+    lyrics: true,
+    artists: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    spotifyUrl: z.string().nullable().optional(),
+  });
 
 export const UpdateSongSchema = SongSchema.pick({
   title: true,
   imageUrl: true,
-  spotifyUrl: true,
 }).extend({
   artistIds: z.array(z.string().min(1)),
+  spotifyUrl: z.string().optional(),
 });
 
 export type SongType = z.infer<typeof SongSchema>;

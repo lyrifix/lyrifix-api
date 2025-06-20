@@ -152,6 +152,7 @@ songRoutes.openapi(
           slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
           title: body.title,
           imageUrl: body.imageUrl,
+          spotifyUrl: body.spotifyUrl,
           artists: {
             connect: body.artistIds.map((id) => ({ id })),
           },
