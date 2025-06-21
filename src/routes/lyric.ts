@@ -277,9 +277,6 @@ lyricRoutes.openapi(
           where: { id: id },
           data: {
             upvoteCount: { increment: 1 },
-            user: {
-              connect: { id: user.id },
-            },
             votes: {
               create: {
                 userId: user.id,
