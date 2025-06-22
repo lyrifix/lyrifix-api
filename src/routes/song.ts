@@ -78,6 +78,9 @@ songRoutes.openapi(
         include: {
           artists: true,
           lyrics: {
+            orderBy: {
+              upvoteCount: "desc",
+            },
             include: {
               // who added the lyric
               user: true,
