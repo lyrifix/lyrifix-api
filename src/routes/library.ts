@@ -49,6 +49,13 @@ libraryRoutes.openapi(
 
         prisma.lyric.findMany({
           where: { userId: user.id },
+          include: {
+            song: {
+              include: {
+                artists: true,
+              },
+            },
+          },
           orderBy: { updatedAt: "desc" },
         }),
       ]);
