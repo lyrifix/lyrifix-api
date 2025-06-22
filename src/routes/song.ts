@@ -77,7 +77,23 @@ songRoutes.openapi(
         where: { slug },
         include: {
           artists: true,
-          lyrics: { include: { user: true } },
+          lyrics: {
+            include: {
+              // who added the lyric
+              user: true,
+              votes: {
+                select: {
+                  // voters information
+                  user: {
+                    select: {
+                      id: true,
+                      username: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 
