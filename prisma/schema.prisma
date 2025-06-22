@@ -66,7 +66,7 @@ model Lyric {
   song   Song   @relation(fields: [songId], references: [id], onDelete: Cascade)
 
   text        String @db.Text
-  upvoteCount Int    @default(0) @db.Integer
+  upvoteCount Int?   @default(0) @db.Integer
 
   votes Vote[]
 
