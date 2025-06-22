@@ -14,12 +14,16 @@ export const CreateArtistSchema = BaseArtistSchema.omit({
   updatedAt: true,
 });
 
-export const SeedArtistSchema = BaseArtistSchema.extend({
-  id: z.string().ulid().optional(),
-}).omit({
-  createdAt: true,
-  updatedAt: true,
-});
+export const SeedArtistSchema = BaseArtistSchema.omit({
+  userId: true,
+})
+  .extend({
+    id: z.string().ulid().optional(),
+  })
+  .omit({
+    createdAt: true,
+    updatedAt: true,
+  });
 
 export const UpdateArtistSchema = BaseArtistSchema.omit({
   id: true,

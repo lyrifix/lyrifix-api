@@ -3,12 +3,7 @@ import { hashPassword, verifyPassword } from "../lib/password";
 import { prisma } from "../lib/prisma";
 import { generateToken } from "../lib/token";
 import { checkAuthorized } from "../middleware/auth";
-import {
-  LoginResponseSchema,
-  LoginUserSchema,
-  PrivateUserSchema,
-  RegisterUserSchema,
-} from "../schema/user";
+import { LoginResponseSchema, LoginUserSchema, PrivateUserSchema, RegisterUserSchema } from "../schema/user";
 
 export const authRoutes = new OpenAPIHono();
 
@@ -96,6 +91,8 @@ authRoutes.openapi(
     }
 
     const token = generateToken(user.id);
+
+    c.header("Token", token);
 
     return c.json({
       token,

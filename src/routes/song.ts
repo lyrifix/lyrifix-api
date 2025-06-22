@@ -2,12 +2,7 @@ import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { createExtraSlug, createSlugify } from "../lib/slug";
 import { checkAuthorized } from "../middleware/auth";
-import {
-  CreateSongSchema,
-  SongSchema,
-  SongsSchema,
-  UpdateSongSchema,
-} from "../schema/song";
+import { CreateSongSchema, SongSchema, SongsSchema, UpdateSongSchema } from "../schema/song";
 
 export const songRoutes = new OpenAPIHono();
 
@@ -122,14 +117,12 @@ songRoutes.openapi(
   }),
   async (c) => {
     try {
+      const user = c.get("user");
       const body = c.req.valid("json");
 
       const song = await prisma.song.findFirst({
         where: {
-          AND: [
-            { title: body.title },
-            { artists: { some: { id: { in: body.artistIds } } } },
-          ],
+          AND: [{ title: body.title }, { artists: { some: { id: { in: body.artistIds } } } }],
         },
       });
 
@@ -145,8 +138,6 @@ songRoutes.openapi(
         });
       }
 
-      const userId = c.get("user").id;
-
       const newSong = await prisma.song.create({
         data: {
           slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
@@ -156,7 +147,7 @@ songRoutes.openapi(
           artists: {
             connect: body.artistIds.map((id) => ({ id })),
           },
-          userId,
+          userId: user.id,
         },
       });
 
@@ -217,9 +208,7 @@ songRoutes.openapi(
           title: updateSongJSON.title,
           imageUrl: updateSongJSON.imageUrl,
           spotifyUrl: updateSongJSON.spotifyUrl,
-          slug: updateSongJSON.title
-            ? createSlugify(`${updateSongJSON.title}-${createExtraSlug()}`)
-            : undefined,
+          slug: updateSongJSON.title ? createSlugify(`${updateSongJSON.title}-${createExtraSlug()}`) : undefined,
           user: {
             connect: { id: userId },
           },

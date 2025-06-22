@@ -37,6 +37,7 @@ export const CreateSongSchema = SongSchema.extend({
     slug: true,
     lyrics: true,
     artists: true,
+    userId: true,
     createdAt: true,
     updatedAt: true,
   })
