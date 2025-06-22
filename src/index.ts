@@ -11,6 +11,7 @@ import { lyricRoutes } from "./routes/lyric";
 import { searchRoutes } from "./routes/search";
 import { songRoutes } from "./routes/song";
 import { usersRoutes } from "./routes/user";
+import { voteRoutes } from "./routes/vote";
 
 const app = new OpenAPIHono();
 
@@ -23,6 +24,7 @@ app.route("/users", usersRoutes);
 app.route("/artists", artistRoutes);
 app.route("/songs", songRoutes);
 app.route("/lyrics", lyricRoutes);
+app.route("/votes", voteRoutes);
 app.route("/search", searchRoutes);
 app.route("/library", libraryRoutes);
 
