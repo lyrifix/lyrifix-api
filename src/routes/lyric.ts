@@ -2,12 +2,7 @@ import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
 import { createExtraSlug } from "../lib/slug";
 import { checkAuthorized } from "../middleware/auth";
-import {
-  CreateLyricSchema,
-  LyricSchema,
-  LyricsSchema,
-  UpdateLyricSchema,
-} from "../schema/lyric";
+import { CreateLyricSchema, LyricSchema, LyricsSchema, UpdateLyricSchema } from "../schema/lyric";
 import { BaseLyricSchema } from "../schema/shared";
 
 export const lyricRoutes = new OpenAPIHono();
@@ -273,7 +268,7 @@ lyricRoutes.openapi(
       });
 
       if (!vote) {
-        await prisma.lyric.update({
+        const updatedLyric = await prisma.lyric.update({
           where: { id: id },
           data: {
             upvoteCount: { increment: 1 },
@@ -284,8 +279,14 @@ lyricRoutes.openapi(
               },
             },
           },
+
+          include: {
+            // Only get usernames from votes.user.username
+            votes: { select: { user: { select: { username: true } } } },
+          },
         });
-        return c.json({ message: "Upvote successfully" }, 200);
+
+        return c.json({ message: "Upvote successfully", lyric: updatedLyric }, 200);
       } else {
         return c.json({ message: "You've voted" }, 200);
       }

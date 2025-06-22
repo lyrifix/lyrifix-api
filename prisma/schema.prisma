@@ -83,7 +83,7 @@ model Vote {
   isUpvote Boolean
 
   userId String
-  User   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   lyricId String?
   lyric   Lyric?  @relation(fields: [lyricId], references: [id])
