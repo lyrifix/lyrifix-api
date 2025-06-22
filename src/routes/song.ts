@@ -84,6 +84,7 @@ songRoutes.openapi(
               votes: {
                 select: {
                   // voters information
+                  id: true,
                   user: {
                     select: {
                       id: true,
