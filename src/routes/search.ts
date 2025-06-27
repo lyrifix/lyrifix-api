@@ -55,7 +55,13 @@ searchRoutes.openapi(
         },
       });
 
-      return c.json({ songs, artists: [], lyrics: [] }, 200);
+      const artists = await prisma.artist.findMany({
+        where: {
+          name: { contains: q, mode: "insensitive" },
+        },
+      });
+
+      return c.json({ songs, artists, lyrics: [] }, 200);
     } catch (error) {
       return c.json({ error }, 400);
     }
