@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
-import { createExtraSlug, createSlugify } from "../lib/slug";
+import { createExtraSlug, createSlug } from "../lib/slug";
 import { checkAuthorized } from "../middleware/auth";
 import { CreateSongSchema, SongSchema, SongsSchema, UpdateSongSchema } from "../schema/song";
 
@@ -160,7 +160,7 @@ songRoutes.openapi(
 
       const newSong = await prisma.song.create({
         data: {
-          slug: `${createSlugify(body.title)}-${createExtraSlug()}`,
+          slug: `${createSlug(body.title)}-${createExtraSlug()}`,
           title: body.title,
           imageUrl: body.imageUrl,
           spotifyUrl: body.spotifyUrl,
@@ -228,7 +228,7 @@ songRoutes.openapi(
           title: updateSongJSON.title,
           imageUrl: updateSongJSON.imageUrl,
           spotifyUrl: updateSongJSON.spotifyUrl,
-          slug: updateSongJSON.title ? createSlugify(`${updateSongJSON.title}-${createExtraSlug()}`) : undefined,
+          slug: updateSongJSON.title ? createSlug(`${updateSongJSON.title}-${createExtraSlug()}`) : undefined,
           user: {
             connect: { id: userId },
           },

@@ -1,13 +1,8 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../lib/prisma";
-import { createSlugify } from "../lib/slug";
+import { createSlug } from "../lib/slug";
 import { checkAuthorized } from "../middleware/auth";
-import {
-  ArtistSchema,
-  ArtistsSchema,
-  CreateArtistSchema,
-  UpdateArtistSchema,
-} from "../schema/artist";
+import { ArtistSchema, ArtistsSchema, CreateArtistSchema, UpdateArtistSchema } from "../schema/artist";
 
 export const artistRoutes = new OpenAPIHono();
 
@@ -88,7 +83,7 @@ artistRoutes.openapi(
 
       const newArtist = await prisma.artist.create({
         data: {
-          slug: `${createSlugify(body.name)}`,
+          slug: `${createSlug(body.name)}`,
           name: body.name,
           imageUrl: body.imageUrl,
           userId,
@@ -196,7 +191,7 @@ artistRoutes.openapi(
         },
         data: {
           name: body.name,
-          slug: `${createSlugify(body.name)}`,
+          slug: `${createSlug(body.name)}`,
           imageUrl: body.imageUrl,
         },
       });
