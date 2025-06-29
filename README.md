@@ -50,7 +50,7 @@ Setup database:
 Copy and edit `.env` file:
 
 ```bash
-bun docker:up
+bun db:up
 ```
 
 Generate Prisma Client and migrate database:
