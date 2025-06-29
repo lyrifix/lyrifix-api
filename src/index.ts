@@ -36,15 +36,12 @@ app.use(
     limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
     standardHeaders: "draft-6",
     keyGenerator: (c) => {
-      // console.log("🔁 keyGenerator dipanggil");
       const ip =
         c.req.header("x-forwarded-for") ??
         c.req.raw.headers.get("x-real-ip") ??
         c.req.raw.headers.get("host") ??
         "global";
-
-      // console.log("🔥 Rate limiter middleware aktif!", ip);
-
+      
       return ip;
     },
   })
