@@ -2,6 +2,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { rateLimiter } from "hono-rate-limiter";
 
 import { configDocs, configGeneral } from "./configs/app";
 import { artistRoutes } from "./routes/artist";
@@ -27,6 +28,27 @@ app.route("/lyrics", lyricRoutes);
 app.route("/votes", voteRoutes);
 app.route("/search", searchRoutes);
 app.route("/library", libraryRoutes);
+
+app.use(
+  "*",
+  rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    standardHeaders: "draft-6",
+    keyGenerator: (c) => {
+      // console.log("🔁 keyGenerator dipanggil");
+      const ip =
+        c.req.header("x-forwarded-for") ??
+        c.req.raw.headers.get("x-real-ip") ??
+        c.req.raw.headers.get("host") ??
+        "global";
+
+      // console.log("🔥 Rate limiter middleware aktif!", ip);
+
+      return ip;
+    },
+  })
+);
 
 app
   .doc(configDocs.openapi, {
